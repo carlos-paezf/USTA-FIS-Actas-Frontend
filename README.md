@@ -31,6 +31,18 @@
 
   Correr `ng generate component component-name` para generar un nuevo componente. También puede usar `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
+- Generar módulo con archivo de rutas:
+  
+  ```txt
+  ng g m module-name --routing
+  ```
+
+- Generar componentes sin archivo de pruebas
+  
+  ```txt
+  ng g c component-name --skip-tests
+  ```
+
 - Construir el proyecto dentro del directorio `/dist`
   
   ```txt

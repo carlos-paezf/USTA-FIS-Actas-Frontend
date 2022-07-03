@@ -6,6 +6,8 @@ import { LoginComponent } from './pages/login/login.component';
 import { MainComponent } from './pages/main/main.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -17,6 +19,8 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
     ],
     imports: [
         CommonModule,
+        ReactiveFormsModule,
+        SharedModule,
         AuthRoutingModule
     ]
 })

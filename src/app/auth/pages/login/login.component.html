@@ -1,1 +1,15 @@
-<p>login works!</p>
+<form [formGroup]="loginForm">
+    <div>
+        <input type="text" formControlName="emailOrUsername" placeholder="Email o Username">
+        <span error-msg [color]="colorError" [message]="emailOrUsernameError"
+            [invalid]="isInvalidField(loginForm, 'emailOrUsername')"></span>
+    </div>
+
+    <div>
+        <input type="password" formControlName="password" placeholder="Contraseña">
+        <span error-msg [color]="colorError" [message]="passwordError"
+            [invalid]="isInvalidField(loginForm, 'password')"></span>
+    </div>
+
+    <button type="submit" (click)="login()">Login</button>
+</form>

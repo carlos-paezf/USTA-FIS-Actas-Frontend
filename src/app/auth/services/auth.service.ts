@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { catchError, map, Observable, of, tap } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
-import { IUser } from 'src/app/interface';
+import { IRegisterUser, IUser } from 'src/app/interface';
 import { IAuthResponse } from '../interface';
 
 
@@ -11,10 +11,19 @@ import { IAuthResponse } from '../interface';
     providedIn: 'root'
 })
 export class AuthService {
-    private _baseURL: string = `${environment.baseURL}/auth`
+    private _baseURL = `${environment.baseURL}/auth`
     private _user!: IUser
+    private _accessToken!: string
 
     constructor(private _http: HttpClient) { }
+
+    /**
+     * This function sets the user property to the user object passed in
+     * @param {IUser} user - IUser - This is the user object that we're going to be setting.
+     */
+    private _setUser(user: IUser) {
+        this._user = user
+    }
 
     /**
      * The function returns a copy of the user object
@@ -25,26 +34,61 @@ export class AuthService {
     }
 
     /**
-     * We're sending a POST request to the `/login` endpoint with the user's email or username and
-     * password. If the request is successful, we're storing the user's data in the `_user` property
-     * @param {string} emailOrUsername - string - The email or username of the user
-     * @param {string} password - string - The password of the user
-     * @returns An observable of a boolean.
+     * It sets the token
+     * @param {string} accessToken - The token that you want to set.
      */
-    public login = (emailOrUsername: string, password: string): Observable<Boolean> => {
+    private _setAccessToken(accessToken: string) {
+        this._accessToken = accessToken
+        localStorage.setItem('accessToken', accessToken)
+    }
+
+    /**
+     * The function returns the value of the private variable _token
+     * @returns The token property is being returned.
+     */
+    get accessToken(): string {
+        return this._accessToken
+    }
+
+    /**
+     * We're sending a POST request to the server with the user's email or username and password. If
+     * the server responds with a status of 200, we're storing the user's data and access token in
+     * local storage
+     * @param {string} emailOrUsername - string, password: string
+     * @param {string} password - string - The password of the user
+     * @returns Observable<boolean>
+     */
+    public login(emailOrUsername: string, password: string): Observable<boolean> {
         const url = `${this._baseURL}/login`
         const body = { emailOrUsername, password }
+
         return this._http.post<IAuthResponse>(url, body)
             .pipe(
                 tap(res => {
                     if (res.status === 200) {
-                        this._user = { ...res.data.user }
+                        this._setAccessToken(res.data.accessToken)
+                        this._setUser({ ...res.data.user })
                     }
                 }),
                 map(res => (res.status === 200)),
-                catchError(error => of(false))
+                catchError(({ error }) => of(error.error))
             )
     }
 
-    public register() { }
+    public register(data: IRegisterUser): Observable<unknown> {
+        const url = `${this._baseURL}/register`
+        const body: IRegisterUser = { ...data }
+
+        return this._http.post<IAuthResponse>(url, body)
+            .pipe(
+                tap(res => {
+                    if (res.status === 200) {
+                        this._setAccessToken(res.data.accessToken)
+                        this._setUser({ ...res.data.user })
+                    }
+                }),
+                map(res => (res.status === 200)),
+                catchError(({ error }) => of(error.error))
+            )
+    }
 }

@@ -1,1 +1,6 @@
-<p>register works!</p>
+<form [formGroup]="registerForm">
+    <div>
+        <input type="text" formControlName="name" placeholder="Nombre(s)" name="name" id="name">
+        <span error-msg [color]="colorError" [invalid]="isInvalidField(registerForm, 'name')"></span>
+    </div>
+</form>

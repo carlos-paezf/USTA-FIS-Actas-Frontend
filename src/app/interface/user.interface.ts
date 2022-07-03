@@ -11,3 +11,12 @@ export interface IUser extends IBaseEntity {
     role: IRole,
     password: "Not Permission"
 }
+
+export interface IRegisterUser {
+    name: string,
+    lastName: string,
+    username: string,
+    email: string,
+    password: string,
+    position: string,
+}

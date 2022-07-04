@@ -1,30 +1,13 @@
-import { AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
+import { AbstractControl } from "@angular/forms";
 
 
 export class CustomValidators {
-    public static patternValidator(regex: RegExp, error: ValidationErrors): ValidatorFn {
-        return (control: AbstractControl): { [key: string]: unknown } | null => {
-            if (!control.value) return null
-
-            return regex.test(control.value) ? null : error
-        }
-    }
-
     /**
-     * If the password and confirmPassword fields don't match, set an error on the confirmPassword
-     * field
-     * @param {AbstractControl} control - AbstractControl - This is the form control that we are
-     * validating.
+     * It returns true if the control has errors, has been touched, and is invalid
+     * @param {AbstractControl} control - AbstractControl - the form control that we want to check
+     * @param {string} field - string - the name of the field you want to check
+     * @returns A boolean value.
      */
-    public static passwordMatchValidator(control: AbstractControl) {
-        const password: string = control.get('password')?.value
-        const confirmPassword: string = control.get('confirmPassword')?.value
-
-        if (password !== confirmPassword) {
-            control.get('confirmPassword')?.setErrors({ noPasswordMatch: true })
-        }
-    }
-
     protected isInvalidField(control: AbstractControl, field: string): boolean {
         return Boolean(
             control.get(field)?.errors &&

@@ -15,7 +15,7 @@ export class AuthService {
     private _user!: IUser
     private _accessToken!: string
 
-    constructor(private _http: HttpClient) { }
+    constructor(private readonly _http: HttpClient) { }
 
     /**
      * This function sets the user property to the user object passed in

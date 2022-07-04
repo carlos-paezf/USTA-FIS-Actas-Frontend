@@ -1,6 +1,38 @@
 <form [formGroup]="registerForm">
     <div>
         <input type="text" formControlName="name" placeholder="Nombre(s)" name="name" id="name">
-        <span error-msg [color]="colorError" [invalid]="isInvalidField(registerForm, 'name')"></span>
+        <span error-msg [color]="colorError" [message]="nameError"
+            [invalid]="isInvalidField(registerForm, 'name')"></span>
     </div>
+    <div>
+        <input type="text" formControlName="lastName" placeholder="Apellidos(s)" name="lastName" id="lastName">
+        <span error-msg [color]="colorError" [message]="lastNameError"
+            [invalid]="isInvalidField(registerForm, 'lastName')"></span>
+    </div>
+    <div>
+        <input type="text" formControlName="position" placeholder="Posición o Cargo" name="position" id="position">
+    </div>
+    <div>
+        <input type="text" formControlName="email" placeholder="Correo electrónico" name="email" id="email">
+        <span error-msg [color]="colorError" [message]="emailError"
+            [invalid]="isInvalidField(registerForm, 'email')"></span>
+    </div>
+    <div>
+        <input type="text" formControlName="username" placeholder="Nombre de usuario" name="username" id="username">
+        <span error-msg [color]="colorError" [message]="usernameError"
+            [invalid]="isInvalidField(registerForm, 'username')"></span>
+    </div>
+    <div>
+        <input type="text" formControlName="password" placeholder="Contraseña" name="password" id="password">
+        <span error-msg [color]="colorError" [message]="passwordError"
+            [invalid]="isInvalidField(registerForm, 'password')"></span>
+    </div>
+    <div>
+        <input type="text" formControlName="confirmPassword" placeholder="Confirmar contraseña" name="confirmPassword"
+            id="confirmPassword">
+        <span error-msg [color]="colorError" [message]="confirmPasswordError"
+            [invalid]="isInvalidField(registerForm, 'confirmPassword')"></span>
+    </div>
+
+    <button [disabled]="registerForm.pending">Enviar</button>
 </form>

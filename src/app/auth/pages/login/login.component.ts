@@ -13,7 +13,11 @@ export class LoginComponent extends CustomValidators implements OnInit {
 
     public colorError = 'red'
 
-    constructor(private _formBuilder: FormBuilder, private _router: Router, private _authService: AuthService) {
+    constructor(
+        private readonly _formBuilder: FormBuilder,
+        private readonly _router: Router,
+        private readonly _authService: AuthService
+    ) {
         super()
     }
 

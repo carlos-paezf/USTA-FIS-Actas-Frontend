@@ -12,7 +12,7 @@ import { AuthService } from 'src/app/auth/services';
 @Injectable()
 export class AccessTokenInterceptor implements HttpInterceptor {
 
-    constructor(private _authService: AuthService) { }
+    constructor(private readonly _authService: AuthService) { }
 
     intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
         const accessToken: string = this._authService.accessToken

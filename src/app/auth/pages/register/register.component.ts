@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CustomValidators } from '../../classes';
-import { AuthService } from '../../services';
+import { AsynchronousEmailValidatorService, AsynchronousUsernameValidatorService, AuthService, CustomValidatorService } from '../../services';
 
 
 @Component({
@@ -15,25 +15,33 @@ export class RegisterComponent extends CustomValidators implements OnInit {
     private _emailPattern = new RegExp(`^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$`)
     public colorError = `red`
 
-    constructor(private _formBuilder: FormBuilder, private _router: Router, private _authService: AuthService) {
+    constructor(
+        private readonly _formBuilder: FormBuilder,
+        private readonly _router: Router,
+        private readonly _authService: AuthService,
+        private readonly _customValidator: CustomValidatorService,
+        private readonly _emailValidator: AsynchronousEmailValidatorService,
+        private readonly _usernameValidator: AsynchronousUsernameValidatorService
+    ) {
         super()
     }
 
     public registerForm = this._formBuilder.group({
         name: ['', [Validators.required]],
         lastName: ['', [Validators.required]],
-        username: ['', [Validators.required]],
+        username: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(15)], [this._usernameValidator]],
         position: [''],
-        email: ['', [Validators.required, Validators.pattern(this._emailPattern)]],
+        email: ['', [Validators.required, Validators.pattern(this._emailPattern)], [this._emailValidator]],
         password: ['', [
             Validators.required, Validators.minLength(6),
-            CustomValidators.patternValidator(/\d/, { hasNumber: true }),
-            CustomValidators.patternValidator(/[A-Z]/, { hasCapitalCase: true }),
-            CustomValidators.patternValidator(/[a-z]/, { hasSmallCase: true })
+            this._customValidator.patternValidator(/\d/, { hasNumber: true }),
+            this._customValidator.patternValidator(/[A-Z]/, { hasCapitalCase: true }),
+            this._customValidator.patternValidator(/[a-z]/, { hasSmallCase: true }),
+            this._customValidator.patternValidator(/[@$¿?¡!()[\]*/+\-_{}#%&=^]/, { hasSpecialCharacterCase: true })
         ]],
         confirmPassword: ['', [Validators.required]],
     }, {
-        validator: CustomValidators.passwordMatchValidator
+        validators: [this._customValidator.passwordMatchValidator]
     })
 
 
@@ -52,31 +60,51 @@ export class RegisterComponent extends CustomValidators implements OnInit {
     }
 
     get usernameError(): string {
+        const username = this.registerForm.get('username')
+        if (username?.getError('required')) {
+            return `Se debe ingresar un nombre de usuario`
+        } else if (username?.getError('minlength')) {
+            return `El nombre de usuario debe tener mínimo 6 caracteres`
+        } else if (username?.getError('maxlength')) {
+            return `El nombre de usuario no debe tener más de 15 caracteres`
+        } else if (username?.getError('usernameIsUsed')) {
+            return `El nombre de usuario ya está en uso`
+        }
         return ``
     }
 
     get emailError(): string {
+        const email = this.registerForm.get('email')
+        if (email?.getError('required')) {
+            return `Se debe ingresar un correo electronico`
+        } else if (email?.getError('pattern')) {
+            return `Se debe ingresar un formato de correo válido`
+        } else if (email?.getError('emailIsUsed')) {
+            return `El correo electrónico ya está en uso`
+        }
         return ``
     }
 
     get passwordError(): string {
         const password = this.registerForm.get('password')
-        if (password?.hasError('required')) {
+        if (password?.getError('required')) {
             return `Se debe ingresar una contraseña`
-        } else if (password?.hasError('minlength')) {
+        } else if (password?.getError('minlength')) {
             return `La contraseña debe tener al menos 6 caracteres`
-        } else if (password?.hasError('hasNumber')) {
+        } else if (password?.getError('hasNumber')) {
             return `La contraseña debe tener al menos un número`
-        } else if (password?.hasError('hasCapitalCase')) {
+        } else if (password?.getError('hasCapitalCase')) {
             return `La contraseña debe tener al menos una mayúscula`
-        } else if (password?.hasError('hasSmallCase')) {
+        } else if (password?.getError('hasSmallCase')) {
             return `La contraseña debe tener al menos una minúscula`
+        } else if (password?.getError('hasSpecialCharacterCase')) {
+            return `La contraseña debe tener al menos un carácter especial`
         }
         return ``
     }
 
     get confirmPasswordError(): string {
-        return (this.registerForm.get('confirmPassword')?.hasError('noPasswordMatch'))
+        return (this.registerForm.get('confirmPassword')?.getError('noPasswordMatch'))
             ? `Las contraseñas ingresadas no coinciden` : ``
     }
 }

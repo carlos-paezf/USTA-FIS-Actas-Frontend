@@ -47,6 +47,7 @@ export class AuthService {
      * @returns The token property is being returned.
      */
     get accessToken(): string {
+        this._accessToken = localStorage.getItem('accessToken') ?? ''
         return this._accessToken
     }
 
@@ -75,6 +76,12 @@ export class AuthService {
             )
     }
 
+    /**
+     * It takes in a user's registration data, sends it to the server, and returns an observable that
+     * emits a boolean value indicating whether the registration was successful or not
+     * @param {IRegisterUser} data - IRegisterUser - this is the data that we're sending to the server.
+     * @returns Observable<unknown>
+     */
     public register(data: IRegisterUser): Observable<unknown> {
         const url = `${this._baseURL}/register`
         const body: IRegisterUser = { ...data }
@@ -82,12 +89,12 @@ export class AuthService {
         return this._http.post<IAuthResponse>(url, body)
             .pipe(
                 tap(res => {
-                    if (res.status === 200) {
+                    if (res.status === 201) {
                         this._setAccessToken(res.data.accessToken)
                         this._setUser({ ...res.data.user })
                     }
                 }),
-                map(res => (res.status === 200)),
+                map(res => (res.status === 201)),
                 catchError(({ error }) => of(error.error))
             )
     }

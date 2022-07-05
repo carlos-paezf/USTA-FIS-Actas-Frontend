@@ -1,1 +1,1 @@
-export { IAuthResponse } from './auth-response.interface';
+export { IAuthResponse, IAsyncValidatorsResponse } from './auth-response.interface';

@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { AbstractControl, AsyncValidator, ValidationErrors } from '@angular/forms';
-import { map, Observable } from 'rxjs';
-import { IBaseResponse } from 'src/app/interface';
+import { debounceTime, first, map, Observable, switchMap } from 'rxjs';
+import { IAsyncValidatorsResponse } from '../interface';
 
 
 @Injectable({
@@ -16,17 +16,31 @@ export class AsynchronousEmailValidatorService implements AsyncValidator {
     constructor(private readonly _http: HttpClient) { }
 
     /**
-     * We're using the `get` method of the `HttpClient` to make a request to the server. If the server
-     * returns a status of 100, then the email is not in use, and we return `null`. If the server
-     * returns a status other than 100, then the email is in use, and we return an object with a key of
-     * `emailIsUsed` and a value of `true`
-     * @param control - AbstractControl<any, any>
+     * We're using the valueChanges observable to listen for changes in the form control. We're using
+     * debounceTime to wait for a second before we make the request to the server. We're using
+     * switchMap to cancel the previous request if the user types something else before the request is
+     * completed. We're using map to map the response from the server to a validation error object.
+     * We're using first to complete the observable
+     * @param control - AbstractControl<unknown, unknown>
      * @returns Observable<ValidationErrors | null>
      */
     validate(control: AbstractControl<unknown, unknown>): Observable<ValidationErrors | null> | Promise<ValidationErrors | null> {
-        const email = control.value
+        return control.valueChanges
+            .pipe(
+                debounceTime(1000),
+                switchMap(value => this._validateUniqueEmail(value)),
+                map((unique: boolean) => (unique) ? null : { emailIsUsed: true }),
+                first()
+            )
+    }
 
-        return this._http.get<IBaseResponse>(`${this._baseURL}/validate?email=${email}`)
-            .pipe(map(res => (res.status === 100) ? null : { emailIsUsed: true }))
+    /**
+     * It checks if the email is unique.
+     * @param {unknown} email - The email address to validate
+     * @returns A boolean value.
+     */
+    private _validateUniqueEmail(email: unknown) {
+        return this._http.get<IAsyncValidatorsResponse>(`${this._baseURL}/validate?email=${email}`)
+            .pipe(map(res => (res.data.isUnique)))
     }
 }

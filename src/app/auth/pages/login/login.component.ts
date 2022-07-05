@@ -33,6 +33,20 @@ export class LoginComponent extends CustomValidators implements OnInit {
         })
     }
 
+    /**
+     * We're subscribing to the login function in the auth service, and if the response is true, we
+     * navigate to the dashboard
+     */
+    public login() {
+        const { emailOrUsername, password } = this.loginForm.value
+        this._authService.login(emailOrUsername, password)
+            .subscribe((res) => {
+                (res === true)
+                    ? this._router.navigateByUrl(`/dashboard`)
+                    : console.error(res)
+            })
+    }
+
     get emailOrUsernameError(): string {
         const emailOrUsername = this.loginForm.get('emailOrUsername')
         if (emailOrUsername?.getError('required')) {
@@ -52,15 +66,4 @@ export class LoginComponent extends CustomValidators implements OnInit {
         }
         return ``
     }
-
-    public login() {
-        const { emailOrUsername, password } = this.loginForm.value
-        this._authService.login(emailOrUsername, password)
-            .subscribe((res) => {
-                (res === true)
-                    ? this._router.navigateByUrl(`/dashboard`)
-                    : console.error(res)
-            })
-    }
-
 }

@@ -27,12 +27,15 @@ export class CustomValidatorService {
      * @param {AbstractControl} control - AbstractControl - This is the form control that we are
      * validating.
      */
-    public passwordMatchValidator(control: AbstractControl) {
-        const password: string = control.get('password')?.value
-        const confirmPassword: string = control.get('confirmPassword')?.value
+    public passwordMatchValidator = (password: string, confirmPassword: string) => {
+        return (formGroup: AbstractControl): ValidationErrors | null => {
+            const p1 = formGroup.get(password)?.value
+            const p2 = formGroup.get(confirmPassword)?.value
 
-        if (password !== confirmPassword) {
-            control.get('confirmPassword')?.setErrors({ noPasswordMatch: true })
+            if (p1 !== p2) {
+                formGroup.get(confirmPassword)?.setErrors({ noPasswordMatch: true })
+            }
+            return null
         }
     }
 }

@@ -9,3 +9,10 @@ export interface IAuthResponse extends IBaseResponse {
         user: IUser
     }
 }
+
+
+export interface IAsyncValidatorsResponse extends IBaseResponse {
+    data: {
+        isUnique: boolean
+    }
+}

@@ -14,6 +14,8 @@ export class RegisterComponent extends CustomValidators implements OnInit {
 
     private _emailPattern = new RegExp(`^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$`)
     public colorError = `red`
+    public showError = false
+
 
     constructor(
         private readonly _formBuilder: FormBuilder,
@@ -25,6 +27,7 @@ export class RegisterComponent extends CustomValidators implements OnInit {
     ) {
         super()
     }
+
 
     public registerForm = this._formBuilder.group({
         name: ['', [Validators.required]],
@@ -39,15 +42,50 @@ export class RegisterComponent extends CustomValidators implements OnInit {
             this._customValidator.patternValidator(/[a-z]/, { hasSmallCase: true }),
             this._customValidator.patternValidator(/[@$¿?¡!()[\]*/+\-_{}#%&=^]/, { hasSpecialCharacterCase: true })
         ]],
-        confirmPassword: ['', [Validators.required]],
+        confirmPassword: ['', [Validators.required, this._customValidator.passwordMatchValidator]],
     }, {
-        validators: [this._customValidator.passwordMatchValidator]
+        validators: [this._customValidator.passwordMatchValidator('password', 'confirmPassword')],
     })
 
 
     ngOnInit(): void {
-        this.registerForm.reset()
+        this.registerForm.reset({
+            name: 'Test',
+            lastName: 'Angular',
+            position: 'Test',
+            password: 'test_Angular123'
+        })
     }
+
+
+    /**
+     * If the form is invalid, show the error message. Otherwise, create a new user object with the
+     * form values, and send it to the auth service. If the response is true, navigate to the
+     * dashboard. Otherwise, log the error
+     * @returns the subscription to the register function in the auth service.
+     */
+    public register() {
+        if (this.registerForm.invalid) return this.showError = true
+
+        this.showError = false
+
+        const newUser = {
+            email: String(this.registerForm.controls['email']?.value),
+            name: String(this.registerForm.controls['name']?.value),
+            lastName: String(this.registerForm.controls['lastName']?.value),
+            username: String(this.registerForm.controls['username']?.value),
+            password: String(this.registerForm.controls['password']?.value),
+            position: String(this.registerForm.controls['position']?.value)
+        }
+
+        return this._authService.register(newUser)
+            .subscribe((res) => {
+                (res === true)
+                    ? this._router.navigateByUrl(`/dashboard`)
+                    : console.error(res)
+            })
+    }
+
 
     get nameError(): string {
         return (this.registerForm.get('name')?.getError('required'))

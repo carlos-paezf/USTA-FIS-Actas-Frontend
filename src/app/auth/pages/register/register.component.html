@@ -23,16 +23,20 @@
             [invalid]="isInvalidField(registerForm, 'username')"></span>
     </div>
     <div>
-        <input type="text" formControlName="password" placeholder="Contraseña" name="password" id="password">
+        <input type="password" formControlName="password" placeholder="Contraseña" name="password" id="password">
         <span error-msg [color]="colorError" [message]="passwordError"
             [invalid]="isInvalidField(registerForm, 'password')"></span>
     </div>
     <div>
-        <input type="text" formControlName="confirmPassword" placeholder="Confirmar contraseña" name="confirmPassword"
-            id="confirmPassword">
+        <input type="password" formControlName="confirmPassword" placeholder="Confirmar contraseña"
+            name="confirmPassword" id="confirmPassword">
         <span error-msg [color]="colorError" [message]="confirmPasswordError"
             [invalid]="isInvalidField(registerForm, 'confirmPassword')"></span>
     </div>
 
-    <button [disabled]="registerForm.pending">Enviar</button>
+    <button type="submit" [disabled]="registerForm.pending" (click)="register()">Enviar</button>
 </form>
+
+<div *customIf="showError">
+    <h1>Se debe llenar de manera correcta el formulario</h1>
+</div>

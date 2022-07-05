@@ -7,7 +7,7 @@ import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
  * @author Carlos Páez
  */
 @Directive({
-    selector: '[custom-If]'
+    selector: '[customIf]'
 })
 export class CustomIfDirective {
 

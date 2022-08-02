@@ -11,7 +11,9 @@ import { AuthService } from '../../services';
 })
 export class LoginComponent extends CustomValidators implements OnInit {
 
-    public colorError = 'red'
+    public colorError: string
+    public serviceError: boolean
+    public connectionError: boolean
 
     constructor(
         private readonly _formBuilder: FormBuilder,
@@ -19,6 +21,9 @@ export class LoginComponent extends CustomValidators implements OnInit {
         private readonly _authService: AuthService
     ) {
         super()
+        this.colorError = 'red'
+        this.serviceError = false
+        this.connectionError = false
     }
 
     public loginForm: FormGroup = this._formBuilder.group({
@@ -41,9 +46,19 @@ export class LoginComponent extends CustomValidators implements OnInit {
         const { emailOrUsername, password } = this.loginForm.value
         this._authService.login(emailOrUsername, password)
             .subscribe((res) => {
-                (res === true)
-                    ? this._router.navigateByUrl(`/dashboard`)
-                    : console.error(res)
+                if (res === true) {
+                    this._router.navigateByUrl(`/dashboard`)
+                } else {
+                    if (res === undefined) {
+                        this.connectionError = true
+                    } else {
+                        this.serviceError = true
+                        console.error('Error en login:', res)
+                    }
+                }
+                // (res === true)
+                //     ? this._router.navigateByUrl(`/dashboard`)
+                //     : console.error(res)
             })
     }
 

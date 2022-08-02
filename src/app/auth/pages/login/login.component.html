@@ -1,15 +1,31 @@
-<form [formGroup]="loginForm">
-    <div>
-        <input type="text" formControlName="emailOrUsername" placeholder="Email o Username">
-        <span error-msg [color]="colorError" [message]="emailOrUsernameError"
-            [invalid]="isInvalidField(loginForm, 'emailOrUsername')"></span>
+<form [formGroup]="loginForm" class="auth__form">
+    <div class="auth__form-item">
+        <label for="emailOrUsername">Nombre de Usuario o Correo Electrónico:</label>
+        <div class="auth__form-input-section">
+            <input type="text" id="emailOrUsername" formControlName="emailOrUsername" placeholder="Email o Username">
+            <span error-msg [color]="colorError" [message]="emailOrUsernameError"
+                [invalid]="isInvalidField(loginForm, 'emailOrUsername')"></span>
+        </div>
     </div>
 
-    <div>
-        <input type="password" formControlName="password" placeholder="Contraseña">
-        <span error-msg [color]="colorError" [message]="passwordError"
-            [invalid]="isInvalidField(loginForm, 'password')"></span>
+    <div class="auth__form-item">
+        <label for="password">Contraseña:</label>
+        <div class="auth__form-input-section">
+            <input type="password" id="password" formControlName="password" placeholder="Contraseña">
+            <span error-msg [color]="colorError" [message]="passwordError"
+                [invalid]="isInvalidField(loginForm, 'password')"></span>
+        </div>
     </div>
 
     <button type="submit" (click)="login()">Login</button>
 </form>
+
+<div *customIf="serviceError">
+    <h1>Error: Nombre de usuario/email o contraseña incorrectos</h1>
+</div>
+
+<div *customIf="connectionError">
+    <h1>Error 500: Error en el servidor</h1>
+</div>
+
+<a [routerLink]="['/auth/register']">Envía una solicitud de registro aquí 👈</a>

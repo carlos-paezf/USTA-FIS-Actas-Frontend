@@ -1,0 +1,1 @@
+export { ValidateTokenGuard } from './validate-token.guard';

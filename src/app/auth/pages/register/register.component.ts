@@ -13,8 +13,9 @@ import { AsynchronousEmailValidatorService, AsynchronousUsernameValidatorService
 export class RegisterComponent extends CustomValidators implements OnInit {
 
     private _emailPattern = new RegExp(`^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$`)
-    public colorError = `red`
-    public showError = false
+    public colorError: string
+    public serviceError: boolean
+    public connectionError: boolean
 
 
     constructor(
@@ -26,6 +27,9 @@ export class RegisterComponent extends CustomValidators implements OnInit {
         private readonly _usernameValidator: AsynchronousUsernameValidatorService
     ) {
         super()
+        this.colorError = `red`
+        this.serviceError = false
+        this.connectionError = false
     }
 
 
@@ -65,9 +69,9 @@ export class RegisterComponent extends CustomValidators implements OnInit {
      * @returns the subscription to the register function in the auth service.
      */
     public register() {
-        if (this.registerForm.invalid) return this.showError = true
+        if (this.registerForm.invalid) return this.serviceError = true
 
-        this.showError = false
+        this.serviceError = false
 
         const newUser = {
             email: String(this.registerForm.controls['email']?.value),
@@ -80,9 +84,16 @@ export class RegisterComponent extends CustomValidators implements OnInit {
 
         return this._authService.register(newUser)
             .subscribe((res) => {
-                (res === true)
-                    ? this._router.navigateByUrl(`/dashboard`)
-                    : console.error(res)
+                if (res === true) {
+                    this._router.navigateByUrl(`/dashboard`)
+                } else {
+                    if (res === undefined) {
+                        this.connectionError = true
+                    } else {
+                        this.serviceError = true
+                        console.error(res)
+                    }
+                }
             })
     }
 

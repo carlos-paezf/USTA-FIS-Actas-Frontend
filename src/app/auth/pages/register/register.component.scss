@@ -1,0 +1,25 @@
+.auth__form,
+.auth__form-input-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.auth__form {
+    gap: 1rem;
+    width: 50%;
+    // border: 1px solid black;
+}
+
+.auth__form-item {
+    align-items: center;
+    display: grid;
+    flex-direction: row;
+    grid-template-columns: 1fr 1fr;
+    // border: 2px solid green;
+}
+
+.auth__form-input-section {
+    align-items: flex-start;
+    gap: 0.25rem;
+    // border: 3px solid red;
+}

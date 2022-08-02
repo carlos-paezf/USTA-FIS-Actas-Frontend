@@ -1,27 +1,29 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map, Observable, of, tap } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
 import { IRegisterUser, IUser } from 'src/app/interface';
 import { IAuthResponse } from '../interface';
+import { AccessTokenService } from 'src/app/shared/services';
 
 
 @Injectable({
     providedIn: 'root'
 })
-export class AuthService {
+export class AuthService extends AccessTokenService {
     private _baseURL = `${environment.baseURL}/auth`
-    private _user!: IUser
-    private _accessToken!: string
+    private _user!: IUser | null
 
-    constructor(private readonly _http: HttpClient) { }
+    constructor(private readonly _http: HttpClient) {
+        super()
+    }
 
     /**
-     * This function sets the user property to the user object passed in
-     * @param {IUser} user - IUser - This is the user object that we're going to be setting.
+     * It sets the user property to the user argument
+     * @param {IUser | null} user - IUser | null
      */
-    private _setUser(user: IUser) {
+    private _setUser(user: IUser | null) {
         this._user = user
     }
 
@@ -31,24 +33,6 @@ export class AuthService {
      */
     get user() {
         return { ...this._user }
-    }
-
-    /**
-     * It sets the token
-     * @param {string} accessToken - The token that you want to set.
-     */
-    private _setAccessToken(accessToken: string) {
-        this._accessToken = accessToken
-        localStorage.setItem('accessToken', accessToken)
-    }
-
-    /**
-     * The function returns the value of the private variable _token
-     * @returns The token property is being returned.
-     */
-    get accessToken(): string {
-        this._accessToken = localStorage.getItem('accessToken') ?? ''
-        return this._accessToken
     }
 
     /**
@@ -96,6 +80,26 @@ export class AuthService {
                 }),
                 map(res => (res.status === 201)),
                 catchError(({ error }) => of(error.error))
+            )
+    }
+
+    /**
+     * It removes the access token from local storage and sets the user to null
+     */
+    public logout(): void {
+        this._removeAccessToken()
+        this._setUser(null)
+        localStorage.clear()
+    }
+
+    public validateAndRenewToken(): Observable<boolean> {
+        const url = `${this._baseURL}/renew-token`
+        const headers = new HttpHeaders()
+            .set('Authorization', `Bearer ${this.accessToken}`)
+        return this._http.get<IAuthResponse>(url, { headers })
+            .pipe(
+                map(res => res.status === 200),
+                catchError(error => of(false))
             )
     }
 }

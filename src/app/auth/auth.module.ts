@@ -8,6 +8,8 @@ import { RegisterComponent } from './pages/register/register.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ErrorHandlingInterceptor } from './http-interceptors/error-handling.interceptor';
 
 
 @NgModule({
@@ -22,6 +24,13 @@ import { SharedModule } from '../shared/shared.module';
         ReactiveFormsModule,
         SharedModule,
         AuthRoutingModule
+    ],
+    providers: [
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: ErrorHandlingInterceptor,
+            multi: true
+        }
     ]
 })
 export class AuthModule { }

@@ -1,3 +1,15 @@
-<p>main works!</p>
+<div class="auth">
+    <app-header></app-header>
 
-<router-outlet></router-outlet>
+    <main>
+        <div class="auth__options">
+            <div class="logo-background">
+                <img src="../../../../assets/USTA.png" alt="">
+            </div>
+            
+            <div class="tabs">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+    </main>
+</div>

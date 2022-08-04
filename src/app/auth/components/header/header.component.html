@@ -1,0 +1,13 @@
+<div class="auth__header">
+    <div class="auth__img">
+        <img src="../../../../assets/logo_santoto_tunja_2022.png" alt="USTA">
+    </div>
+
+    <div class="auth__links">
+        <a *ngFor="let item of items" [routerLink]="item.routerLink" routerLinkActive="router-link-active"
+            [routerLinkActiveOptions]="{ exact: true }" #rla="routerLinkActive"
+            [class]="!rla ? 'router-link-active' : ''">
+            {{ item.label }}
+        </a>
+    </div>
+</div>

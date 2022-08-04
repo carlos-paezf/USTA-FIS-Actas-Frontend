@@ -10,6 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ErrorHandlingInterceptor } from './http-interceptors/error-handling.interceptor';
+import { HeaderComponent } from './components/header/header.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { ErrorHandlingInterceptor } from './http-interceptors/error-handling.int
         LoginComponent,
         MainComponent,
         RegisterComponent,
-        NotFoundComponent
+        NotFoundComponent,
+        HeaderComponent
     ],
     imports: [
         CommonModule,

@@ -1,77 +1,86 @@
-<form [formGroup]="registerForm" class="auth__form">
-    <div class="auth__form-item">
-        <label for="name">Nombres:</label>
-        <div class="auth__form-input-section">
-            <input type="text" formControlName="name" placeholder="Nombre(s)" name="name" id="name">
-            <span error-msg [color]="colorError" [message]="nameError"
-                [invalid]="isInvalidField(registerForm, 'name')"></span>
+<div class="auth__card">
+
+    <h1>Solicita tu acceso aquí</h1>
+
+    <form [formGroup]="registerForm" class="auth__form">
+
+        <div class="auth__form-card">
+            <div class="auth__form-input-section">
+                <input type="text" formControlName="name" class="text-input" placeholder="Nombre(s)" name="name" id="name">
+                <label class="label" for="name">Nombres</label>
+                <span error-msg [color]="colorError" [message]="nameError"
+                    [invalid]="isInvalidField(registerForm, 'name')"></span>
+            </div>
         </div>
-    </div>
 
-    <div class="auth__form-item">
-        <label for="lastName">Apellidos:</label>
-        <div class="auth__form-input-section">
-            <input type="text" formControlName="lastName" placeholder="Apellidos(s)" name="lastName" id="lastName">
-            <span error-msg [color]="colorError" [message]="lastNameError"
-                [invalid]="isInvalidField(registerForm, 'lastName')"></span>
+        <div class="auth__form-card">
+            <div class="auth__form-input-section">
+                <input type="text" formControlName="lastName" class="text-input" placeholder="Apellido(s)" name="lastName" id="lastName">
+                <label class="label" for="lastName">Apellidos</label>
+                <span error-msg [color]="colorError" [message]="lastNameError"
+                    [invalid]="isInvalidField(registerForm, 'lastName')"></span>
+            </div>
         </div>
-    </div>
 
-    <div class="auth__form-item">
-        <label for="position">Posición o Cargo en la entidad:</label>
-        <div class="auth__form-input-section">
-            <input type="text" formControlName="position" placeholder="Posición o Cargo" name="position" id="position">
+        <div class="auth__form-card">
+            <div class="auth__form-input-section">
+                <input type="text" formControlName="position" class="text-input" placeholder="Posición o Cargo" name="position"
+                id="position">
+                <label class="label" for="position">Posición o Cargo en la entidad</label>
+            </div>
         </div>
-    </div>
 
-    <div class="auth__form-item">
-        <label for="email">Dirección de Correo Electrónico:</label>
-        <div class="auth__form-input-section">
-            <input type="text" formControlName="email" placeholder="Correo electrónico" name="email" id="email">
-            <span error-msg [color]="colorError" [message]="emailError"
-                [invalid]="isInvalidField(registerForm, 'email')"></span>
+        <div class="auth__form-card">
+            <div class="auth__form-input-section">
+                <input type="text" formControlName="email" class="text-input" placeholder="Correo electrónico" name="email" id="email">
+                <label class="label" for="email">Dirección de Correo Electrónico</label>
+                <span error-msg [color]="colorError" [message]="emailError"
+                    [invalid]="isInvalidField(registerForm, 'email')"></span>
+            </div>
         </div>
-    </div>
 
-    <div class="auth__form-item">
-        <label for="username">Nombre de Usuario:</label>
-        <div class="auth__form-input-section">
-            <input type="text" formControlName="username" placeholder="Nombre de usuario" name="username" id="username">
-            <span error-msg [color]="colorError" [message]="usernameError"
-                [invalid]="isInvalidField(registerForm, 'username')"></span>
+        <div class="auth__form-card">
+            <div class="auth__form-input-section">
+                <input type="text" formControlName="username" class="text-input" placeholder="Nombre de usuario" name="username"
+                id="username">
+                <label class="label" for="username">Nombre de Usuario</label>
+                <span error-msg [color]="colorError" [message]="usernameError"
+                    [invalid]="isInvalidField(registerForm, 'username')"></span>
+            </div>
         </div>
-    </div>
 
-    <div class="auth__form-item">
-        <label for="password">Contraseña:</label>
-        <div class="auth__form-input-section">
-            <input type="password" formControlName="password" placeholder="Contraseña" name="password" id="password">
-            <span error-msg [color]="colorError" [message]="passwordError"
-                [invalid]="isInvalidField(registerForm, 'password')"></span>
+        <div class="auth__form-card">
+            <div class="auth__form-input-section">
+                <input type="password" formControlName="password" class="text-input" placeholder="Contraseña" name="password"
+                id="password">
+                <label class="label" for="password">Contraseña</label>
+                <span error-msg [color]="colorError" [message]="passwordError"
+                    [invalid]="isInvalidField(registerForm, 'password')"></span>
+            </div>
         </div>
-    </div>
 
-    <div class="auth__form-item">
-        <label for="confirmPassword">Ingresa de nuevo la contraseña:</label>
-        <div class="auth__form-input-section">
-
-            <input type="password" formControlName="confirmPassword" placeholder="Confirmar contraseña"
+        <div class="auth__form-card">
+            <div class="auth__form-input-section">
+                <input type="password" formControlName="confirmPassword" class="text-input" placeholder="Confirmar contraseña"
                 name="confirmPassword" id="confirmPassword">
-            <span error-msg [color]="colorError" [message]="confirmPasswordError"
-                [invalid]="isInvalidField(registerForm, 'confirmPassword')"></span>
+                <label class="label" for="confirmPassword">Ingresa de nuevo la contraseña</label>
+                <span error-msg [color]="colorError" [message]="confirmPasswordError"
+                    [invalid]="isInvalidField(registerForm, 'confirmPassword')"></span>
+            </div>
         </div>
+
+        <button class="auth__form-btn" type="submit" [disabled]="registerForm.pending" (click)="register()">Enviar Solicitud</button>
+    </form>
+
+
+    <div *customIf="serviceError">
+        <h1>Se debe llenar de manera correcta el formulario</h1>
     </div>
 
-    <button type="submit" [disabled]="registerForm.pending" (click)="register()">Enviar</button>
-</form>
-
-<div *customIf="serviceError">
-    <h1>Se debe llenar de manera correcta el formulario</h1>
+    <a [routerLink]="['/auth/login']">¿Ya tienes una cuenta? Ingresa aquí 👈</a>
 </div>
+
 
 <div *customIf="connectionError">
-    <h1>Error 500: Error en el servidor</h1>
+    <app-internal-server-error></app-internal-server-error>
 </div>
-
-
-<a [routerLink]="['/auth/login']">¿Ya tienes una cuenta? Ingresa aquí 👈</a>

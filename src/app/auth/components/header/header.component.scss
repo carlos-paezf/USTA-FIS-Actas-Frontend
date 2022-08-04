@@ -1,0 +1,44 @@
+.auth__header {
+    align-items: center;
+    background: linear-gradient(rgb(10, 30, 78), rgb(8, 22, 56));
+    border-bottom: 2px solid var(--gold);
+    display: flex;
+    flex-flow: row nowrap;
+    height: var(--header-height);
+    padding: 0 5rem;
+    transition: all var(--duration);
+    width: 100%;
+    z-index: 10;
+
+    .auth__img {
+        height: calc(var(--header-height) * 0.8);
+        width: 50%;
+        padding: 0 2rem;
+
+        img {
+            height: 100%;
+        }
+    }
+
+
+    .auth__links {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: right;
+        gap: 2.5rem;
+        width: 50%;
+        padding: 0px 2rem;
+
+        a {
+            color: var(--text-light);
+            font-size: 1.15rem;
+            text-decoration: none;
+
+            &.router-link-active,
+            &:hover {
+                color: var(--gold);
+                transition: all var(--duration);
+            }
+        }
+    }
+}

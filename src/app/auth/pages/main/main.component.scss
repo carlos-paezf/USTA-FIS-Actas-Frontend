@@ -5,7 +5,7 @@
     height: 100%;
     justify-content: stretch;
     width: 100%;
-    
+
     main {
         align-items: center;
         display: flex;
@@ -13,13 +13,11 @@
         justify-content: center;
         margin: 4rem 0;
         width: 100%;
-        
+
         .auth__options {
             align-items: center;
-            background: linear-gradient(
-                to bottom right,
-                #f7f8fe,#e3edfe
-            );
+            background: linear-gradient(to bottom right,
+                    #f7f8fe, #e3edfe);
             border-radius: 1rem;
             box-shadow: 1em 1em 5em var(--text-light);
             display: grid;
@@ -28,14 +26,14 @@
             height: 45rem;
             padding: 1rem;
             width: 75%;
-            
+
             .logo-background {
                 align-items: center;
                 display: flex;
                 flex-direction: column;
                 height: 75%;
                 justify-content: center;
-                
+
                 img {
                     width: 85%;
                 }
@@ -45,7 +43,7 @@
                 height: 100%;
                 position: relative;
                 width: 100%;
-                
+
                 .auth__card {
                     align-items: center;
                     display: flex;
@@ -59,41 +57,55 @@
                     top: 0;
                     transition: all 200ms;
                     width: 100%;
-                    
+
                     .auth__form,
                     .auth__form-input-section {
                         display: flex;
                         flex-direction: column;
                         transition: all 200ms;
                     }
-                    
+
                     .auth__form {
                         gap: 1.25rem;
                         width: 75%;
                         align-items: center;
-                        
+
+                        .form__tab {
+                            display: flex;
+                            flex-direction: column;
+                            gap: 1.25rem;
+                            width: 100%;
+
+                            .buttons {
+                                display: flex;
+                                flex-direction: row;
+                                gap: 5rem;
+                                justify-content: flex-end;
+                            }
+                        }
+
                         .auth__form-card {
                             display: flex;
                             flex-direction: column;
                             width: 100%;
-                            
+
                             .auth__form-input-section {
                                 gap: 0.25rem;
                                 position: relative;
-                                width: 100%;  
-                                
+                                width: 100%;
+
                                 .label {
                                     position: absolute;
                                     left: 10px;
-                                    top: 16px;
+                                    top: 14px;
                                     transition: all 200ms;
                                     padding: 0 2px;
                                     z-index: 1;
                                     color: #000000;
-                                    
+
                                     &::before {
                                         content: "";
-                                        height: 6px;
+                                        height: 8px;
                                         background: #dee3fd;
                                         position: absolute;
                                         left: 0;
@@ -102,13 +114,16 @@
                                         z-index: -1;
                                     }
                                 }
-                                
-                                .text-input {
+
+                                .text-input,
+                                .password-input {
                                     padding: 0.8rem;
+                                    padding-right: 3rem;
+                                    outline: none;
                                     width: 100%;
                                     height: 100%;
                                     border: 2px solid #2f2c45;
-                                    background: #dee3fd;
+                                    background: #e7ebff;
                                     border-radius: 5px;
                                     font-size: 18px;
                                     outline: none;
@@ -116,15 +131,18 @@
                                     color: #333333;
 
                                     &:focus {
-                                        border: 2px solid #7e4ccb;
+                                        border: 2px solid #5d70ce;
+                                        background: rgba($color: #5d70ce, $alpha: .15);
+                                        box-shadow: 0px 0px 5px #5d70ce;
                                     }
 
-                                    &:focus + .label,
-                                    &:not(:placeholder-shown) + .label,
+                                    &:focus+.label,
+                                    &:not(:placeholder-shown)+.label,
                                     .filled {
-                                        top: -10px;
-                                        color: #7e4ccb;
-                                        font-size: 14px;
+                                        top: -12px;
+                                        color: #302670;
+                                        font-size: 16px;
+                                        font-weight: 600;
                                     }
 
                                     &::placeholder {
@@ -132,31 +150,65 @@
                                         opacity: 0;
                                         transition: all 300ms;
                                     }
-                                    
+
                                     &:focus::placeholder {
                                         opacity: 1;
+                                    }
+                                }
+
+                                .password-toggle {
+                                    position: absolute;
+                                    right: 5px;
+                                    top: 3px;
+                                    cursor: pointer;
+                                    user-select: none;
+                                    z-index: 99;
+                                    height: 45px;
+                                    width: 45px;
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                    transition: all 200ms;
+                                    border-radius: 0.5rem;
+
+                                    i {
+                                        color: var(--royal-blue);
+                                        font-size: 30px;
                                     }
                                 }
                             }
                         }
 
-                        .auth__form-btn {
+                        .auth__form-btn,
+                        .btn__outline {
                             width: 50%;
                             padding: 0.8rem;
                             font-size: 16px;
                             border: none;
                             border-radius: 0.5rem;
-                            background-color: var(--royal-blue);
-                            color: #f7f8fe;
-                            cursor: pointer;
                             transition: all 200ms;
-
-                            &:hover {
-                                background-color: lighten($color: rgb(8, 22, 54), $amount: 15);
-                            }
 
                             &:active {
                                 transform: scale(.97);
+                            }
+                        }
+
+                        .auth__form-btn {
+                            background-color: var(--royal-blue);
+                            color: #f7f8fe;
+                            
+                            &:hover {
+                                background-color: lighten($color: rgb(8, 22, 54), $amount: 15);
+                            }
+                        }
+
+                        .btn__outline {
+                            background-color: #9eb6e8;
+                            color: #000000;
+
+                            &:hover {
+                                color: #f7f8fe;
+                                background-color: #5168ab;
                             }
                         }
                     }

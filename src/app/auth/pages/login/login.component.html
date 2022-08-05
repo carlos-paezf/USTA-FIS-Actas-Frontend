@@ -1,4 +1,4 @@
-<div class="auth__card">
+<div class="auth__card animate__animated animate__fadeIn">
 
     <h1 class="mb-1">Iniciar sesión</h1>
 
@@ -15,15 +15,18 @@
 
         <div class="auth__form-card">
             <div class="auth__form-input-section">
-                <input input-form type="password" id="password" class="text-input" formControlName="password"
+                <input type="password" id="password-login" class="password-input" formControlName="password"
                     placeholder="Contraseña">
-                <label for="password" class="label">Contraseña</label>
+                <label for="password-login" class="label">Contraseña</label>
+                <span id="toggle-login" class="password-toggle">
+                    <i appInputPassword idInput="password-login" idToggle="toggle-login" class="pi pi-eye"></i>
+                </span>
                 <span error-msg [color]="colorError" [message]="passwordError"
                     [invalid]="isInvalidField(loginForm, 'password')"></span>
             </div>
         </div>
 
-        <button class="auth__form-btn" type="submit" (click)="login()">Inicia Sesión</button>
+        <button class="auth__form-btn mt-1" type="submit" (click)="login()">Iniciar Sesión</button>
     </form>
 
 

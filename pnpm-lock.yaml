@@ -15,6 +15,7 @@ specifiers:
   '@types/jasmine': ~4.0.0
   '@typescript-eslint/eslint-plugin': ^5.30.3
   '@typescript-eslint/parser': ^5.30.3
+  animate.css: ^4.1.1
   eslint: ^8.19.0
   jasmine-core: ~4.1.0
   karma: ~6.3.0
@@ -22,6 +23,8 @@ specifiers:
   karma-coverage: ~2.2.0
   karma-jasmine: ~5.0.0
   karma-jasmine-html-reporter: ~1.7.0
+  primeicons: ^5.0.0
+  primeng: ^14.0.0
   rxjs: ~7.5.0
   tslib: ^2.3.0
   typescript: ~4.7.2
@@ -36,6 +39,9 @@ dependencies:
   '@angular/platform-browser': 14.0.4_yfesy6buf6mogxoxrpozm5a6ha
   '@angular/platform-browser-dynamic': 14.0.4_oeidzb2ikpd7hxiwao6wqndxim
   '@angular/router': 14.0.4_z554obbbjbaxl2adlugwuvyrpe
+  animate.css: 4.1.1
+  primeicons: 5.0.0
+  primeng: 14.0.0_oi3vtlz3qmz4kpmgewkpthnxge
   rxjs: 7.5.5
   tslib: 2.4.0
   zone.js: 0.11.6
@@ -2451,6 +2457,10 @@ packages:
       require-from-string: 2.0.2
       uri-js: 4.4.1
     dev: true
+
+  /animate.css/4.1.1:
+    resolution: {integrity: sha512-+mRmCTv6SbCmtYJCN4faJMNFVNN5EuCTTprDTAo7YzIGji2KADmakjVA3+8mVDkZ2Bf09vayB35lSQIex2+QaQ==}
+    dev: false
 
   /ansi-colors/4.1.1:
     resolution: {integrity: sha512-JoX0apGbHaUJBNl6yF+p6JAFYZ666/hhCGKN5t9QFjbJQKUU/g8MNbFDbvfrgKXvI1QpZplPOnwIo99lX/AAmA==}
@@ -6205,6 +6215,29 @@ packages:
     resolution: {integrity: sha512-FFw039TmrBqFK8ma/7OL3sDz/VytdtJr044/QUJtH0wK9lb9jLq9tJyIxUwtQJHwar2BqtiA4iCWSwo9JLkzFg==}
     engines: {node: '>=6'}
     dev: true
+
+  /primeicons/5.0.0:
+    resolution: {integrity: sha512-heygWF0X5HFI1otlZE62pp6ye7sZ8om78J9au2BRkg8O7Y8AHTZ9qKMRzchZUHLe8zUAvdi6hZzzm9XxgwIExw==}
+    dev: false
+
+  /primeng/14.0.0_oi3vtlz3qmz4kpmgewkpthnxge:
+    resolution: {integrity: sha512-FXDrm0YmgVTPkOfiFNWwanKyvnpgIjsdlMaZrSN1sK3dJTymwvLz/0ah0ctqFgvPnp5Q78bFEomCnvxW1AO15w==}
+    peerDependencies:
+      '@angular/common': ^14.0.0
+      '@angular/core': ^14.0.0
+      '@angular/forms': ^14.0.0
+      primeicons: ^5.0.0
+      rxjs: ^6.0.0 || ^7.0.0
+      zone.js: ^0.10.2 || ^0.11.0
+    dependencies:
+      '@angular/common': 14.0.4_dbi3ebsepejzlh4ipwfyshbq7u
+      '@angular/core': 14.0.4_rxjs@7.5.5+zone.js@0.11.6
+      '@angular/forms': 14.0.4_z554obbbjbaxl2adlugwuvyrpe
+      primeicons: 5.0.0
+      rxjs: 7.5.5
+      tslib: 2.4.0
+      zone.js: 0.11.6
+    dev: false
 
   /proc-log/2.0.1:
     resolution: {integrity: sha512-Kcmo2FhfDTXdcbfDH76N7uBYHINxc/8GW7UAVuVP9I+Va3uHSerrnKV6dLooga/gh7GlgzuCCr/eoldnL1muGw==}

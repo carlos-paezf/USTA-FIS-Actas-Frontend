@@ -16,6 +16,8 @@ export class RegisterComponent extends CustomValidators implements OnInit {
     public colorError: string
     public serviceError: boolean
     public connectionError: boolean
+    public basicData: boolean
+    public loginData: boolean
 
 
     constructor(
@@ -30,6 +32,8 @@ export class RegisterComponent extends CustomValidators implements OnInit {
         this.colorError = `red`
         this.serviceError = false
         this.connectionError = false
+        this.basicData = true
+        this.loginData = false
     }
 
 

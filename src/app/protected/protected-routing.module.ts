@@ -27,11 +27,11 @@ const routes: Routes = [
                 loadChildren: () => import('./modules/users/users.module').then(m => m.UsersModule)
             },
             { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-            { path: '**', component: NotFoundComponent, data: { title: 'No encontrado =(' } }
+            { path: '**', component: NotFoundComponent, data: { title: 'No encontrado' } }
         ]
     },
     {
-        path: '**', component: NotFoundComponent, data: { title: 'No encontrado =(' }
+        path: '**', component: NotFoundComponent, data: { title: 'No encontrado' }
     }
 ];
 

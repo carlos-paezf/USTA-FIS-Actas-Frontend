@@ -10,9 +10,9 @@ export class CustomValidators {
      */
     protected isInvalidField(control: AbstractControl, field: string): boolean {
         return Boolean(
-            control.get(field)?.errors &&
-            control.get(field)?.touched &&
-            control.get(field)?.invalid
+            control.get(field)?.errors 
+            && control.get(field)?.touched 
+            && control.get(field)?.invalid
         )
     }
 }

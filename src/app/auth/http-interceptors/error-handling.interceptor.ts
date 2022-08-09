@@ -16,7 +16,7 @@ export class ErrorHandlingInterceptor implements HttpInterceptor {
 
     /**
      * The function intercepts the request, and if the request returns a 401 status code, the user is
-     * logged out and redirected to the register page
+     * logged out and redirected to the login page
      * @param request - HttpRequest<unknown> - The request object
      * @param {HttpHandler} next - HttpHandler - The next interceptor in the chain.
      * @returns Observable<HttpEvent<unknown>>
@@ -25,7 +25,7 @@ export class ErrorHandlingInterceptor implements HttpInterceptor {
         return next.handle(request).pipe(catchError(err => {
             if (err.status === 401) {
                 this._authenticationService.logout()
-                this._router.navigate(['/register'])
+                this._router.navigate(['/auth'])
             }
 
             const error = err.error.message || err.status

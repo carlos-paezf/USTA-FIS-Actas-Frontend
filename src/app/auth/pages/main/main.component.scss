@@ -6,6 +6,15 @@
     justify-content: stretch;
     width: 100%;
 
+    button {
+        cursor: pointer;
+
+        &:disabled {
+            background-color: #7085b3 !important;
+            cursor: not-allowed;
+        }
+    }
+
     main {
         align-items: center;
         display: flex;
@@ -79,7 +88,7 @@
                             .buttons {
                                 display: flex;
                                 flex-direction: row;
-                                gap: 5rem;
+                                gap: 2.5rem;
                                 justify-content: flex-end;
                             }
                         }
@@ -178,39 +187,11 @@
                                 }
                             }
                         }
+                    }
 
-                        .auth__form-btn,
-                        .btn__outline {
-                            width: 50%;
-                            padding: 0.8rem;
-                            font-size: 16px;
-                            border: none;
-                            border-radius: 0.5rem;
-                            transition: all 200ms;
-
-                            &:active {
-                                transform: scale(.97);
-                            }
-                        }
-
-                        .auth__form-btn {
-                            background-color: var(--royal-blue);
-                            color: #f7f8fe;
-                            
-                            &:hover {
-                                background-color: lighten($color: rgb(8, 22, 54), $amount: 15);
-                            }
-                        }
-
-                        .btn__outline {
-                            background-color: #9eb6e8;
-                            color: #000000;
-
-                            &:hover {
-                                color: #f7f8fe;
-                                background-color: #5168ab;
-                            }
-                        }
+                    .auth__link {
+                        text-decoration: none;
+                        font-size: 16px;
                     }
                 }
             }

@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-internal-server-error',
-  templateUrl: './internal-server-error.component.html',
-  styleUrls: ['./internal-server-error.component.scss']
+    selector: 'app-internal-server-error',
+    templateUrl: './internal-server-error.component.html',
+    styleUrls: ['./internal-server-error.component.scss']
 })
-export class InternalServerErrorComponent implements OnInit {
+export class InternalServerErrorComponent {
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+    /**
+     * The function refreshes the page
+     */
+    public refresh() {
+        window.location.reload()
+    }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { InternalServerErrorService, ToastrNotificationService } from 'src/app/shared/services';
 import { CustomValidators } from '../../classes';
 import { AsynchronousEmailValidatorService, AsynchronousUsernameValidatorService, AuthService, CustomValidatorService } from '../../services';
 
@@ -14,26 +15,26 @@ export class RegisterComponent extends CustomValidators implements OnInit {
 
     private _emailPattern = new RegExp(`^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$`)
     public colorError: string
-    public serviceError: boolean
-    public connectionError: boolean
     public basicData: boolean
     public loginData: boolean
+    public internalServerError: boolean
 
 
     constructor(
         private readonly _formBuilder: FormBuilder,
         private readonly _router: Router,
+        private readonly _toastr: ToastrNotificationService,
         private readonly _authService: AuthService,
+        private readonly _internalError: InternalServerErrorService,
         private readonly _customValidator: CustomValidatorService,
         private readonly _emailValidator: AsynchronousEmailValidatorService,
         private readonly _usernameValidator: AsynchronousUsernameValidatorService
     ) {
         super()
         this.colorError = `red`
-        this.serviceError = false
-        this.connectionError = false
         this.basicData = true
         this.loginData = false
+        this.internalServerError = false
     }
 
 
@@ -65,17 +66,30 @@ export class RegisterComponent extends CustomValidators implements OnInit {
         })
     }
 
+    /**
+     * It returns an error message if the form is not filled out.
+     * @returns The invalidFields method is being returned.
+     */
+    get invalidFields() {
+        return this._toastr.error(
+            `Completa todos los campos del formulario`,
+            `Error de envío`
+        )
+    }
+
 
     /**
-     * If the form is invalid, show the error message. Otherwise, create a new user object with the
-     * form values, and send it to the auth service. If the response is true, navigate to the
-     * dashboard. Otherwise, log the error
-     * @returns the subscription to the register function in the auth service.
+     * If the form is invalid, mark all fields as touched and return the invalidFields array.
+     * Otherwise, create a new user object, and send it to the auth service. If the response is true,
+     * navigate to the dashboard. If the response is undefined, navigate to the 500 page. Otherwise,
+     * return the invalidFields array
+     * @returns the result of the subscribe function.
      */
     public register() {
-        if (this.registerForm.invalid) return this.serviceError = true
-
-        this.serviceError = false
+        if (this.registerForm.invalid) {
+            this.registerForm.markAllAsTouched()
+            return this.invalidFields
+        }
 
         const newUser = {
             email: String(this.registerForm.controls['email']?.value),
@@ -89,29 +103,46 @@ export class RegisterComponent extends CustomValidators implements OnInit {
         return this._authService.register(newUser)
             .subscribe((res) => {
                 if (res === true) {
-                    this._router.navigateByUrl(`/dashboard`)
+                    return this._router.navigateByUrl(`/dashboard`)
                 } else {
-                    if (res === undefined) {
-                        this.connectionError = true
+                    if (res !== undefined) {
+                        return this.invalidFields
                     } else {
-                        this.serviceError = true
-                        console.error(res)
+                        return this._internalError.reportInternalServerError()
                     }
                 }
             })
     }
 
 
+    /**
+     * If the name field is empty, return the error message, otherwise return an empty string
+     * @returns The error message for the name field.
+     */
     get nameError(): string {
         return (this.registerForm.get('name')?.getError('required'))
             ? `Debe ingresar su nombre(s)` : ``
     }
 
+    /**
+     * If the lastName field is required, return the error message, otherwise return an empty string
+     * @returns The error message for the lastName field.
+     */
     get lastNameError(): string {
         return (this.registerForm.get('lastName')?.getError('required'))
             ? `Debe ingresar su apellido(s)` : ``
     }
 
+    /**
+     * If the username field has an error of type 'required', return the string 'Se debe ingresar un
+     * nombre de usuario'. If the username field has an error of type 'minlength', return the string
+     * 'El nombre de usuario debe tener mínimo 6 caracteres'. If the username field has an error of
+     * type 'maxlength', return the string 'El nombre de usuario no debe tener más de 15 caracteres'.
+     * If the username field has an error of type 'usernameIsUsed', return the string 'El nombre de
+     * usuario ya está en uso'. If none of the above conditions are met, return an empty string
+     * @returns The error message that is being returned is the one that is being returned by the
+     * backend.
+     */
     get usernameError(): string {
         const username = this.registerForm.get('username')
         if (username?.getError('required')) {
@@ -126,6 +157,15 @@ export class RegisterComponent extends CustomValidators implements OnInit {
         return ``
     }
 
+    /**
+     * If the email field has an error of type 'required', return the string 'Se debe ingresar un
+     * correo electronico', otherwise if the email field has an error of type 'pattern', return the
+     * string 'Se debe ingresar un formato de correo válido', otherwise if the email field has an error
+     * of type 'emailIsUsed', return the string 'El correo electrónico ya está en uso', otherwise
+     * return an empty string
+     * @returns The error message that is being returned is the one that is being returned by the
+     * server.
+     */
     get emailError(): string {
         const email = this.registerForm.get('email')
         if (email?.getError('required')) {
@@ -138,6 +178,11 @@ export class RegisterComponent extends CustomValidators implements OnInit {
         return ``
     }
 
+    /**
+     * It returns a string that is the error message for the password field of the form
+     * @returns The error message that is being returned is the one that is being validated by the
+     * form.
+     */
     get passwordError(): string {
         const password = this.registerForm.get('password')
         if (password?.getError('required')) {
@@ -156,6 +201,11 @@ export class RegisterComponent extends CustomValidators implements OnInit {
         return ``
     }
 
+    /**
+     * If the confirmPassword field has an error of type noPasswordMatch, return the error message,
+     * otherwise return an empty string
+     * @returns The error message that is being returned is the one that is being set in the validator.
+     */
     get confirmPasswordError(): string {
         return (this.registerForm.get('confirmPassword')?.getError('noPasswordMatch'))
             ? `Las contraseñas ingresadas no coinciden` : ``

@@ -6,9 +6,13 @@
             <div class="logo-background">
                 <img src="../../../../assets/USTA.png" alt="">
             </div>
-            
-            <div class="tabs">
+
+            <div class="tabs" *customIf="!internalServerError">
                 <router-outlet></router-outlet>
+            </div>
+
+            <div *customIf="internalServerError">
+                <app-internal-server-error></app-internal-server-error>
             </div>
         </div>
     </main>

@@ -28,7 +28,7 @@ export class ValidateTokenGuard implements CanActivate, CanLoad {
      * If the user is not logged in, redirect them to the login page
      * @returns Observable<boolean>
      */
-    canLoad(): Observable<boolean> | boolean  {
+    canLoad(): Observable<boolean> | boolean {
         return this._authService.validateAndRenewToken()
             .pipe(
                 tap(valid => {

@@ -20,6 +20,7 @@ export class AccessTokenService {
      */
     protected _removeAccessToken() {
         localStorage.removeItem('accessToken')
+        localStorage.clear()
     }
 
     /**

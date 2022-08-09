@@ -41,3 +41,9 @@ Se hace uso de Animate.css para simplificar las animaciones de los elementos. Su
 ```txt
 pnpm i animate.css -S
 ```
+
+## Toastr Angular
+
+```txt
+pnpm i ngx-toastr
+```

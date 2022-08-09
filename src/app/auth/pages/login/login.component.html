@@ -26,18 +26,9 @@
             </div>
         </div>
 
-        <button class="auth__form-btn mt-1" type="submit" (click)="login()">Iniciar Sesión</button>
+        <button class="btn btn__primary mt-1" type="submit" (click)="login()" [disabled]="loginForm.pending">Iniciar
+            Sesión</button>
     </form>
 
-
-    <div *customIf="serviceError">
-        <h1>Error: Nombre de usuario/email o contraseña incorrectos</h1>
-    </div>
-
-    <a [routerLink]="['/auth/register']">Envía una solicitud de registro aquí 👈</a>
-</div>
-
-
-<div *customIf="connectionError">
-    <app-internal-server-error></app-internal-server-error>
+    <a [routerLink]="['/auth/register']" class="auth__link">Envía una solicitud de registro aquí 👈</a>
 </div>

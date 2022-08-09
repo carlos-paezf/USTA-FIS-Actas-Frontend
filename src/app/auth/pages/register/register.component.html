@@ -36,7 +36,7 @@
             </div>
 
             <div class="mt-1 buttons">
-                <button class="btn__outline" (click)="loginData = true; basicData = false">
+                <button class="btn btn__secondary" (click)="loginData = true; basicData = false">
                     Siguiente
                 </button>
             </div>
@@ -45,7 +45,7 @@
 
         <section class="form__tab animate__animated animate__fadeIn" *customIf="loginData">
             <h3>Datos de ingreso a la Plataforma</h3>
-            
+
             <div class="auth__form-card">
                 <div class="auth__form-input-section">
                     <input type="text" formControlName="email" class="text-input" placeholder="Correo electrónico"
@@ -94,26 +94,16 @@
             </div>
 
             <div class="mt-1 buttons">
-                <button class="btn__outline" (click)="basicData = true; loginData = false">
+                <button class="btn btn__secondary" (click)="basicData = true; loginData = false">
                     Atrás
                 </button>
-                
-                <button class="auth__form-btn" type="submit" [disabled]="registerForm.pending" (click)="register()">
+
+                <button class="btn btn__primary" type="submit" [disabled]="registerForm.pending" (click)="register()">
                     Enviar Solicitud
                 </button>
             </div>
         </section>
     </form>
 
-
-    <div *customIf="serviceError">
-        <h1>Se debe llenar de manera correcta el formulario</h1>
-    </div>
-
-    <a [routerLink]="['/auth/login']">¿Ya tienes una cuenta? Ingresa aquí 👈</a>
-</div>
-
-
-<div *customIf="connectionError">
-    <app-internal-server-error></app-internal-server-error>
+    <a [routerLink]="['/auth/login']" class="auth__link">¿Ya tienes una cuenta? Ingresa aquí 👈</a>
 </div>

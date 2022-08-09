@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { InternalServerErrorService, ToastrNotificationService } from 'src/app/shared/services';
 import { CustomValidators } from '../../classes';
 import { AuthService } from '../../services';
 
@@ -12,18 +13,16 @@ import { AuthService } from '../../services';
 export class LoginComponent extends CustomValidators implements OnInit {
 
     public colorError: string
-    public serviceError: boolean
-    public connectionError: boolean
 
     constructor(
         private readonly _formBuilder: FormBuilder,
         private readonly _router: Router,
-        private readonly _authService: AuthService
+        private readonly _authService: AuthService,
+        private readonly _toastr: ToastrNotificationService,
+        private _internalError: InternalServerErrorService
     ) {
         super()
         this.colorError = 'red'
-        this.serviceError = false
-        this.connectionError = false
     }
 
     public loginForm: FormGroup = this._formBuilder.group({
@@ -32,6 +31,7 @@ export class LoginComponent extends CustomValidators implements OnInit {
     })
 
     ngOnInit(): void {
+        // this.loginForm.reset()
         this.loginForm.reset({
             emailOrUsername: 'carlos-paezf',
             password: 'developer1234567890'
@@ -39,29 +39,53 @@ export class LoginComponent extends CustomValidators implements OnInit {
     }
 
     /**
-     * We're subscribing to the login function in the auth service, and if the response is true, we
-     * navigate to the dashboard
+     * It returns an error message if the user enters invalid credentials.
+     * @returns A toastr message
+     */
+    get invalidCredentials() {
+        return this._toastr.error(
+            `Usuario/Correo o Contraseña invalida`,
+            `Error de autenticación`
+        )
+    }
+
+
+    /**
+     * If the form is invalid, mark all the fields as touched and return the invalidCredentials error
+     * message. If the form is valid, get the emailOrUsername and password values from the form, call
+     * the login function from the auth service, and subscribe to the response. If the response is
+     * true, navigate to the dashboard. If the response is not true, but is not undefined, return the
+     * invalidCredentials error message. If the response is undefined, navigate to the 500 error page
+     * @returns The login function is returning the result of the subscribe function.
      */
     public login() {
+        if (this.loginForm.invalid) {
+            this.loginForm.markAllAsTouched()
+            return this.invalidCredentials
+        }
+
         const { emailOrUsername, password } = this.loginForm.value
+
         this._authService.login(emailOrUsername, password)
             .subscribe((res) => {
                 if (res === true) {
-                    this._router.navigateByUrl(`/dashboard`)
+                    return this._router.navigateByUrl(`/dashboard`)
                 } else {
-                    if (res === undefined) {
-                        this.connectionError = true
+                    if (res !== undefined) {
+                        return this.invalidCredentials
                     } else {
-                        this.serviceError = true
-                        console.error('Error en login:', res)
+                        return this._internalError.reportInternalServerError()
                     }
                 }
-                // (res === true)
-                //     ? this._router.navigateByUrl(`/dashboard`)
-                //     : console.error(res)
             })
     }
 
+    /**
+     * If the emailOrUsername field has a required error, return a string with the error message,
+     * otherwise if the emailOrUsername field has a minlength error, return a string with the error
+     * message, otherwise return an empty string
+     * @returns The error message that will be displayed in the template.
+     */
     get emailOrUsernameError(): string {
         const emailOrUsername = this.loginForm.get('emailOrUsername')
         if (emailOrUsername?.getError('required')) {
@@ -72,6 +96,13 @@ export class LoginComponent extends CustomValidators implements OnInit {
         return ``
     }
 
+    /**
+     * If the password field is empty, return a message saying that the password is required. If the
+     * password field is not empty, but the password is less than 6 characters, return a message saying
+     * that the password must be at least 6 characters. If neither of these conditions are true, return
+     * an empty string
+     * @returns The passwordError is being returned.
+     */
     get passwordError(): string {
         const password = this.loginForm.get('password')
         if (password?.getError('required')) {

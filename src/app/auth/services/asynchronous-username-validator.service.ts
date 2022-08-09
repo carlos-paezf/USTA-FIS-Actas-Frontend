@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { AbstractControl, AsyncValidator, ValidationErrors } from '@angular/forms';
-import { debounceTime, first, map, Observable, switchMap } from 'rxjs';
+import { catchError, debounceTime, first, map, Observable, of, switchMap } from 'rxjs';
 import { IAsyncValidatorsResponse } from '../interface';
+import { InternalServerErrorService } from 'src/app/shared/services';
 
 
 @Injectable({
@@ -13,7 +14,10 @@ export class AsynchronousUsernameValidatorService implements AsyncValidator {
 
     private _baseURL = `${environment.baseURL}/auth`
 
-    constructor(private readonly _http: HttpClient) { }
+    constructor(
+        private readonly _http: HttpClient,
+        private readonly _internalError: InternalServerErrorService
+    ) { }
 
     /**
      * We're using the valueChanges observable to listen for changes to the form control's value. We're
@@ -36,13 +40,19 @@ export class AsynchronousUsernameValidatorService implements AsyncValidator {
     }
 
     /**
-     * It takes a username as an argument, makes a GET request to the server, and returns a boolean
-     * value based on the response
-     * @param {unknown} username - The username to validate
-     * @returns A boolean value.
+     * It makes a GET request to the server, and if the server responds with a 200 status code, it
+     * returns true, otherwise it returns false
+     * @param {unknown} username - unknown - This is the value of the input field.
+     * @returns An observable of a boolean.
      */
-    private _validateUniqueUsername(username: unknown) {
+    private _validateUniqueUsername(username: unknown): Observable<boolean> {
         return this._http.get<IAsyncValidatorsResponse>(`${this._baseURL}/validate?username=${username}`)
-            .pipe(map(res => (res.data.isUnique)))
+            .pipe(
+                map(res => (res.data.isUnique)),
+                catchError(() => {
+                    this._internalError.reportInternalServerError()
+                    return of(false)
+                })
+            )
     }
 }

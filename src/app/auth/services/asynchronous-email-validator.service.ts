@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { AbstractControl, AsyncValidator, ValidationErrors } from '@angular/forms';
-import { debounceTime, first, map, Observable, switchMap } from 'rxjs';
+import { catchError, debounceTime, first, map, Observable, of, switchMap } from 'rxjs';
 import { IAsyncValidatorsResponse } from '../interface';
+import { InternalServerErrorService } from 'src/app/shared/services';
 
 
 @Injectable({
@@ -13,7 +14,10 @@ export class AsynchronousEmailValidatorService implements AsyncValidator {
 
     private _baseURL = `${environment.baseURL}/auth`
 
-    constructor(private readonly _http: HttpClient) { }
+    constructor(
+        private readonly _http: HttpClient,
+        private readonly _internalError: InternalServerErrorService
+    ) { }
 
     /**
      * We're using the valueChanges observable to listen for changes in the form control. We're using
@@ -35,12 +39,19 @@ export class AsynchronousEmailValidatorService implements AsyncValidator {
     }
 
     /**
-     * It checks if the email is unique.
-     * @param {unknown} email - The email address to validate
-     * @returns A boolean value.
+     * It makes a GET request to the server, and if the server responds with a 200 status code, it
+     * returns true, otherwise it returns false
+     * @param {unknown} email - unknown - The email address that the user has entered.
+     * @returns An observable of a boolean.
      */
-    private _validateUniqueEmail(email: unknown) {
+    private _validateUniqueEmail(email: unknown): Observable<boolean> {
         return this._http.get<IAsyncValidatorsResponse>(`${this._baseURL}/validate?email=${email}`)
-            .pipe(map(res => (res.data.isUnique)))
+            .pipe(
+                map(res => (res.data.isUnique)),
+                catchError(() => {
+                    this._internalError.reportInternalServerError()
+                    return of(false)
+                })
+            )
     }
 }

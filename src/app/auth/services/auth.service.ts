@@ -89,17 +89,26 @@ export class AuthService extends AccessTokenService {
     public logout(): void {
         this._removeAccessToken()
         this._setUser(null)
-        localStorage.clear()
     }
 
+    /**
+     * We're sending a GET request to the server with the access token in the header. If the server
+     * responds with a 200 status code, we return true. If the server responds with anything else, we
+     * log the user out and return false
+     * @returns Observable<boolean>
+     */
     public validateAndRenewToken(): Observable<boolean> {
         const url = `${this._baseURL}/renew-token`
         const headers = new HttpHeaders()
             .set('Authorization', `Bearer ${this.accessToken}`)
+
         return this._http.get<IAuthResponse>(url, { headers })
             .pipe(
                 map(res => res.status === 200),
-                catchError(error => of(false))
+                catchError(error => {
+                    this.logout();
+                    return of(error.ok)
+                })
             )
     }
 }

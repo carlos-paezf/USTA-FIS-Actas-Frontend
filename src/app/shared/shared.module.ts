@@ -4,6 +4,7 @@ import { ErrorMsgDirective } from './directives/error-msg.directive';
 import { CustomIfDirective } from './directives/custom-if.directive';
 import { InternalServerErrorComponent } from './components/internal-server-error/internal-server-error.component';
 import { InputPasswordDirective } from './directives/input-password.directive';
+import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { InputPasswordDirective } from './directives/input-password.directive';
         ErrorMsgDirective,
         CustomIfDirective,
         InternalServerErrorComponent,
-        InputPasswordDirective
+        InputPasswordDirective,
+        LoadingSpinnerComponent
     ],
     imports: [
         CommonModule

@@ -1,0 +1,21 @@
+.page__404 {
+    padding: 40px 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+
+    img {
+        width: 35rem;
+    }
+
+    .content_box_404 {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+}

@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ForbiddenComponent } from './pages/forbidden/forbidden.component';
 
 import { MainComponent } from './pages/main/main.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { UnauthorizedComponent } from './pages/unauthorized/unauthorized.component';
 
 
 const routes: Routes = [
@@ -26,6 +28,8 @@ const routes: Routes = [
                 path: 'users',
                 loadChildren: () => import('./modules/users/users.module').then(m => m.UsersModule)
             },
+            { path: 'unauthorized', pathMatch: 'full', component: UnauthorizedComponent },
+            { path: 'forbidden', pathMatch: 'full', component: ForbiddenComponent },
             { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
             { path: '**', component: NotFoundComponent, data: { title: 'No encontrado' } }
         ]

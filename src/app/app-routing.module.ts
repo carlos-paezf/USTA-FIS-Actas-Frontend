@@ -1,12 +1,14 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { ValidateTokenGuard } from './shared/guards';
+import { ValidateAuthGuard, ValidateTokenGuard } from './shared/guards';
 
 
 const routes: Routes = [
     {
         path: 'auth',
-        loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
+        loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule),
+        canActivate: [ValidateAuthGuard],
+        canLoad: [ValidateAuthGuard]
     },
     {
         path: '',

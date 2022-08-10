@@ -1,3 +1,7 @@
 <p>main-protected works!</p>
 
-<router-outlet></router-outlet>
+<main>
+    <router-outlet *customIf="!internalServerError"></router-outlet>
+
+    <app-internal-server-error *customIf="internalServerError"></app-internal-server-error>
+</main>

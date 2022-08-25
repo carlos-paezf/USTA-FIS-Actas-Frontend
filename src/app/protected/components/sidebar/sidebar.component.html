@@ -1,1 +1,97 @@
-<p>sidebar works!</p>
+<div class="sidebar" id="sidebar">
+    <header class="sidebar__header header">
+        <div class="header__logo">
+            <img alt="usta" [src]="
+                isCollapsed
+                    ? '../../../../assets/logo_2022.png'
+                    : '../../../../assets/logo_santoto_tunja_2022.png'
+            " />
+        </div>
+
+        <button class="sidebar__button" appSidebarToggle aria-label="Expand" id="toggle-sidebar">
+            <span class="sidebar__button-icon">
+                <i class="pi pi-chevron-left" arial-hidden="true"></i>
+            </span>
+        </button>
+    </header>
+
+
+    <section class="search">
+        <label appSearchIconSidebar class="search__icon">
+            <i class="pi pi-search" arial-hidden="true"></i>
+        </label>
+        <app-input-autocomplete></app-input-autocomplete>
+    </section>
+
+
+    <nav class="sidebar__nav nav">
+        <ul class="nav__list">
+            <li class="nav__item" *ngFor="let item of items; let i = index">
+                <button appValidateModulePermissionItem [module]="item.module" [permission]="item.permission"
+                    appNavItemList [idNavItem]="i" [routerLink]="item.routerLink" routerLinkActive="is-active"
+                    #rla="routerLinkActive" [class]="!rla ? 'nav__button is-active' : 'nav__button'">
+
+                    <span class="nav__icon">
+                        <i [class]="item.icon" arial-hidden="true"></i>
+                    </span>
+
+                    <span class="nav__label">{{ item.label }}</span>
+
+                    <button class="nav__item-children" [id]="'list-button-' + i" *ngIf="item.childItems">
+                        <i class="pi pi-chevron-down" arial-hidden="true"></i>
+                    </button>
+                </button>
+
+                <ul class="nav__list list__child select" *ngIf="item.childItems" [id]="'list-child-' + i">
+                    <li class="nav__item" *ngFor="let item_child of item.childItems; let i = index">
+                        <button appValidateModulePermissionItem [module]="item_child.module"
+                            [permission]="item_child.permission" [routerLink]="item_child.routerLink"
+                            routerLinkActive="is-active" #rla="routerLinkActive"
+                            [class]="!rla ? 'nav__button is-active' : 'nav__button'">
+
+                            <span class="nav__icon">
+                                <i [class]="item_child.icon" arial-hidden="true"></i>
+                            </span>
+
+                            <span class="nav__label">{{ item_child.label }}</span>
+                        </button>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+        <div class="nav__divider"></div>
+
+        <ul class="nav__list">
+            <li class="nav__item">
+                <button class="nav__button">
+                    <span class="nav__icon">
+                        <i class="pi pi-sliders-h" aria-hidden="true"></i>
+                    </span>
+                    <span class="nav__label">Configuración de la cuenta</span>
+                </button>
+            </li>
+        </ul>
+    </nav>
+
+
+    <div class="sidebar__footer user" id="user-button">
+        <button class="user__button" appUserButtonSidebar>
+            <div class="user__badge">
+                <div class="user__image">
+                    <i class="pi pi-user" arial-hidden="true"></i>
+                </div>
+            </div>
+
+            <div class="user__text">
+                <span class="user__name">{{ user.username }}</span>
+                <span class="user__title">{{ user.role.roleName }}</span>
+            </div>
+
+            <div class="user__logout" id="user-tooltip">
+                <span>Cerrar Sesión</span>
+                <i class="pi pi-power-off" id="user-logout"></i>
+            </div>
+        </button>
+    </div>
+</div>

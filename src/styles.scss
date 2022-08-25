@@ -28,9 +28,9 @@
     --radius-sm: .5rem;
     --radius: 1rem;
 
-    --sidenav-gutter: 1.5rem;
-    --sidenav-width: 24rem;
-    --sidenav-mini-width: 5.5rem;
+    --sidebar-gutter: 1.5rem;
+    --sidebar-width: 20rem;
+    --sidebar-mini-width: 5.5rem;
 
     --breadcrumb: 3.7rem;
 
@@ -104,7 +104,7 @@ html {
 
     body {
         --scroll-thumb: var(--primary-lighter);
-        background: linear-gradient(to bottom right,
+        background-color: linear-gradient(to bottom right,
                 #e5edfa, #E6F0FF);
         flex-flow: column nowrap;
         justify-content: flex-start;
@@ -114,6 +114,7 @@ html {
         transition: scrollbar-color 200ms;
         display: flex;
         font-family: var(--font-family);
+        font-size: 16px;
         height: 100%;
         margin: 0;
         min-width: 100vw;
@@ -539,4 +540,14 @@ html {
             background-color: #5168ab;
         }
     }
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
 }

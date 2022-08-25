@@ -47,3 +47,9 @@ pnpm i animate.css -S
 ```txt
 pnpm i ngx-toastr
 ```
+
+## JWT Decode
+
+```txt
+pnpm i jwt-decode
+```

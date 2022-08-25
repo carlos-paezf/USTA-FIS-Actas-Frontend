@@ -1,12 +1,10 @@
 
-import { IBaseResponse } from "src/app/interface"
-import { IUser } from "src/app/interface/user.interface"
+import { IBaseResponse } from "src/app/shared/interfaces"
 
 
 export interface IAuthResponse extends IBaseResponse {
     data: {
-        accessToken: string,
-        user: IUser
+        accessToken: string
     }
 }
 

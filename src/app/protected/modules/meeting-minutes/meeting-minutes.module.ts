@@ -5,10 +5,10 @@ import { MeetingMinutesRoutingModule } from './meeting-minutes-routing.module';
 
 
 @NgModule({
-  declarations: [],
-  imports: [
-    CommonModule,
-    MeetingMinutesRoutingModule
-  ]
+    declarations: [],
+    imports: [
+        CommonModule,
+        MeetingMinutesRoutingModule
+    ]
 })
 export class MeetingMinutesModule { }

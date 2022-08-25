@@ -1,10 +1,14 @@
 import { Injectable } from '@angular/core';
+import jwtDecode from 'jwt-decode';
+
+import { IAccessToken } from '../interfaces/access-token.interface';
+
 
 @Injectable({
     providedIn: 'root'
 })
 export class AccessTokenService {
-    public _accessToken!: string
+    private _accessToken!: string
 
     /**
      * It sets the token
@@ -30,5 +34,14 @@ export class AccessTokenService {
     public get accessToken(): string {
         this._accessToken = localStorage.getItem('accessToken') ?? ''
         return this._accessToken
+    }
+
+    /**
+     * It takes the access token from the local storage and decodes it using the jwtDecode function
+     * from the jwt-decode library
+     * @returns The decoded access token.
+     */
+    public get decodeAccessToken(): IAccessToken {
+        return jwtDecode(this.accessToken)
     }
 }

@@ -1,5 +1,7 @@
 import { AfterViewInit, Component, ViewEncapsulation } from '@angular/core';
+
 import { InternalServerErrorService } from 'src/app/shared/services';
+
 
 @Component({
     selector: 'app-main',

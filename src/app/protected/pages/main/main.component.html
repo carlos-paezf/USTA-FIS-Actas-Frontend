@@ -1,7 +1,11 @@
-<p>main-protected works!</p>
+<div class="protected">
+    <app-sidebar></app-sidebar>
 
-<main>
-    <router-outlet *customIf="!internalServerError"></router-outlet>
+    <main>
+        <app-navbar></app-navbar>
 
-    <app-internal-server-error *customIf="internalServerError"></app-internal-server-error>
-</main>
+        <router-outlet *customIf="!internalServerError"></router-outlet>
+
+        <app-internal-server-error *customIf="internalServerError"></app-internal-server-error>
+    </main>
+</div>

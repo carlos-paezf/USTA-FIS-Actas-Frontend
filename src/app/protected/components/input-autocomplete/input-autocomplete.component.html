@@ -1,0 +1,14 @@
+<div class="input__searching">
+    <input appInputAutocomplete matInput class="search__input" type="text" [(ngModel)]="term" [matAutocomplete]="auto"
+        (input)="searching()" id="search" placeholder="Buscar Módulo" aria-label="Buscar Módulo">
+    <label for="search" class="label">Buscar Módulo</label>
+</div>
+
+<mat-autocomplete #auto="matAutocomplete" (optionSelected)="optionSelected($event)" id="autocomplete">
+    <mat-option appValidateModulePermissionItem [module]="item.module" [permission]="item.permission"
+        class="search__option" *ngFor="let item of items" [value]="item" [routerLink]="item.routerLink"
+        routerLinkActive="is-active" #rla="routerLinkActive"
+        [class]="!rla ? 'search__option is-active' : 'search__option'">
+        {{ item.label }}
+    </mat-option>
+</mat-autocomplete>

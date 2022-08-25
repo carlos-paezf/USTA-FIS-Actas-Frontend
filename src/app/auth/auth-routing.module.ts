@@ -41,10 +41,6 @@ const routes: Routes = [
     }
 ];
 
-/**
- * We subscribe to the router events and filter out the NavigationEnd event. Then we map the router
- * state to the title of the current route
- */
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],

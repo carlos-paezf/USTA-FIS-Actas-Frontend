@@ -3,8 +3,7 @@ import { Injectable } from '@angular/core';
 import { catchError, map, Observable, of, tap } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
-import { IRegisterUser, IUser } from 'src/app/interface';
-import { IAuthResponse } from '../interface';
+import { IAuthResponse, IRegisterUser } from '../interface';
 import { AccessTokenService } from 'src/app/shared/services';
 
 
@@ -12,32 +11,15 @@ import { AccessTokenService } from 'src/app/shared/services';
     providedIn: 'root'
 })
 export class AuthService extends AccessTokenService {
-    private _baseURL = `${environment.baseURL}/auth`
-    private _user!: IUser | null
+    private _baseURL = `${environment.baseURLAuth}/auth`
 
     constructor(private readonly _http: HttpClient) {
         super()
     }
 
     /**
-     * It sets the user property to the user argument
-     * @param {IUser | null} user - IUser | null
-     */
-    private _setUser(user: IUser | null) {
-        this._user = user
-    }
-
-    /**
-     * The function returns a copy of the user object
-     * @returns A copy of the user object.
-     */
-    get user() {
-        return { ...this._user }
-    }
-
-    /**
      * We're sending a POST request to the server with the user's email or username and password. If
-     * the server responds with a status of 200, we're storing the user's data and access token in
+     * the server responds with a status of 200, we're storing the access token in
      * local storage
      * @param {string} emailOrUsername - string, password: string
      * @param {string} password - string - The password of the user
@@ -52,7 +34,6 @@ export class AuthService extends AccessTokenService {
                 tap(res => {
                     if (res.status === 200) {
                         this._setAccessToken(res.data.accessToken)
-                        this._setUser({ ...res.data.user })
                     }
                 }),
                 map(res => (res.status === 200)),
@@ -75,7 +56,6 @@ export class AuthService extends AccessTokenService {
                 tap(res => {
                     if (res.status === 201) {
                         this._setAccessToken(res.data.accessToken)
-                        this._setUser({ ...res.data.user })
                     }
                 }),
                 map(res => (res.status === 201)),
@@ -84,11 +64,10 @@ export class AuthService extends AccessTokenService {
     }
 
     /**
-     * It removes the access token from local storage and sets the user to null
+     * It removes the access token from local storage
      */
     public logout(): void {
         this._removeAccessToken()
-        this._setUser(null)
     }
 
     /**
@@ -104,7 +83,13 @@ export class AuthService extends AccessTokenService {
 
         return this._http.get<IAuthResponse>(url, { headers })
             .pipe(
-                map(res => res.status === 200),
+                map(res => {
+                    if (res.status === 200) {
+                        this._setAccessToken(res.data.accessToken)
+                        return true
+                    }
+                    return false
+                }),
                 catchError(error => {
                     this.logout();
                     return of(error.ok)

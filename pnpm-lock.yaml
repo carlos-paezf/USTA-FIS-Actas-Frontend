@@ -3,12 +3,14 @@ lockfileVersion: 5.4
 specifiers:
   '@angular-devkit/build-angular': ^14.0.4
   '@angular/animations': ^14.0.0
+  '@angular/cdk': 14.1.2
   '@angular/cli': ~14.0.4
   '@angular/common': ^14.0.0
   '@angular/compiler': ^14.0.0
   '@angular/compiler-cli': ^14.0.0
   '@angular/core': ^14.0.0
   '@angular/forms': ^14.0.0
+  '@angular/material': 14.1.2
   '@angular/platform-browser': ^14.0.0
   '@angular/platform-browser-dynamic': ^14.0.0
   '@angular/router': ^14.0.0
@@ -18,6 +20,7 @@ specifiers:
   animate.css: ^4.1.1
   eslint: ^8.19.0
   jasmine-core: ~4.1.0
+  jwt-decode: ^3.1.2
   karma: ~6.3.0
   karma-chrome-launcher: ~3.1.0
   karma-coverage: ~2.2.0
@@ -33,14 +36,17 @@ specifiers:
 
 dependencies:
   '@angular/animations': 14.0.4_@angular+core@14.0.4
+  '@angular/cdk': 14.1.2_fq6hpeqgusqux4asacgqfh7zvm
   '@angular/common': 14.0.4_dbi3ebsepejzlh4ipwfyshbq7u
   '@angular/compiler': 14.0.4_@angular+core@14.0.4
   '@angular/core': 14.0.4_rxjs@7.5.5+zone.js@0.11.6
   '@angular/forms': 14.0.4_z554obbbjbaxl2adlugwuvyrpe
+  '@angular/material': 14.1.2_xcxm3eln7mpiv4fkkdo6edvnle
   '@angular/platform-browser': 14.0.4_yfesy6buf6mogxoxrpozm5a6ha
   '@angular/platform-browser-dynamic': 14.0.4_oeidzb2ikpd7hxiwao6wqndxim
   '@angular/router': 14.0.4_z554obbbjbaxl2adlugwuvyrpe
   animate.css: 4.1.1
+  jwt-decode: 3.1.2
   ngx-toastr: 15.0.0_okagl5pcwqmtshwaa4r6efzswq
   primeicons: 5.0.0
   primeng: 14.0.0_oi3vtlz3qmz4kpmgewkpthnxge
@@ -247,6 +253,21 @@ packages:
       tslib: 2.4.0
     dev: false
 
+  /@angular/cdk/14.1.2_fq6hpeqgusqux4asacgqfh7zvm:
+    resolution: {integrity: sha512-hJMhQmWWXTgwUa51OvEUgSATduEILCmGXpbsvC+REMMOo9rTd3u+cfrJW9OKl7Weq86VhKQ0WSfbn3MVyhUVBg==}
+    peerDependencies:
+      '@angular/common': ^14.0.0 || ^15.0.0
+      '@angular/core': ^14.0.0 || ^15.0.0
+      rxjs: ^6.5.3 || ^7.4.0
+    dependencies:
+      '@angular/common': 14.0.4_dbi3ebsepejzlh4ipwfyshbq7u
+      '@angular/core': 14.0.4_rxjs@7.5.5+zone.js@0.11.6
+      rxjs: 7.5.5
+      tslib: 2.4.0
+    optionalDependencies:
+      parse5: 5.1.1
+    dev: false
+
   /@angular/cli/14.0.4:
     resolution: {integrity: sha512-hb6mJk6/vJwHCuMaGResQh9aXgoSyfrJ/WuFgLcPspdFRkm4EQcTSx8DwrRo7YawuCa12UJdPoK0dASXYN6JHA==}
     engines: {node: ^14.15.0 || >=16.10.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
@@ -348,6 +369,27 @@ packages:
     dependencies:
       '@angular/common': 14.0.4_dbi3ebsepejzlh4ipwfyshbq7u
       '@angular/core': 14.0.4_rxjs@7.5.5+zone.js@0.11.6
+      '@angular/platform-browser': 14.0.4_yfesy6buf6mogxoxrpozm5a6ha
+      rxjs: 7.5.5
+      tslib: 2.4.0
+    dev: false
+
+  /@angular/material/14.1.2_xcxm3eln7mpiv4fkkdo6edvnle:
+    resolution: {integrity: sha512-riDaeOFF+fzjOxeWlqtVAT7lHlqoyzxE24Z7r7qyYriU+EndfEfOv9XQFup5BkqvDvzN9My+1vI562caWM3nfQ==}
+    peerDependencies:
+      '@angular/animations': ^14.0.0 || ^15.0.0
+      '@angular/cdk': 14.1.2
+      '@angular/common': ^14.0.0 || ^15.0.0
+      '@angular/core': ^14.0.0 || ^15.0.0
+      '@angular/forms': ^14.0.0 || ^15.0.0
+      '@angular/platform-browser': ^14.0.0 || ^15.0.0
+      rxjs: ^6.5.3 || ^7.4.0
+    dependencies:
+      '@angular/animations': 14.0.4_@angular+core@14.0.4
+      '@angular/cdk': 14.1.2_fq6hpeqgusqux4asacgqfh7zvm
+      '@angular/common': 14.0.4_dbi3ebsepejzlh4ipwfyshbq7u
+      '@angular/core': 14.0.4_rxjs@7.5.5+zone.js@0.11.6
+      '@angular/forms': 14.0.4_z554obbbjbaxl2adlugwuvyrpe
       '@angular/platform-browser': 14.0.4_yfesy6buf6mogxoxrpozm5a6ha
       rxjs: 7.5.5
       tslib: 2.4.0
@@ -4795,6 +4837,10 @@ packages:
     engines: {'0': node >= 0.2.0}
     dev: true
 
+  /jwt-decode/3.1.2:
+    resolution: {integrity: sha512-UfpWE/VZn0iP50d8cz9NrZLM9lSWhcJ+0Gt/nm4by88UL+J1SiKN8/5dkjMmbEzwL2CAe+67GsegCbIKtbp75A==}
+    dev: false
+
   /karma-chrome-launcher/3.1.1:
     resolution: {integrity: sha512-hsIglcq1vtboGPAN+DGCISCFOxW+ZVnIqhDQcCMqqCp+4dmJ0Qpq5QAjkbA0X2L9Mi6OBkHi2Srrbmm7pUKkzQ==}
     dependencies:
@@ -5739,6 +5785,12 @@ packages:
     dependencies:
       parse5: 6.0.1
     dev: true
+
+  /parse5/5.1.1:
+    resolution: {integrity: sha512-ugq4DFI0Ptb+WWjAdOK16+u/nHfiIrcE+sh8kZMaM0WllQKLI9rOUq6c2b7cwPkXdzfQESqvoqK6ug7U/Yyzug==}
+    requiresBuild: true
+    dev: false
+    optional: true
 
   /parse5/6.0.1:
     resolution: {integrity: sha512-Ofn/CTFzRGTTxwpNEs9PP93gXShHcTq255nzRYSKe8AkVpZY7e1fpmTfOyoIvjP5HG7Z2ZM7VS9PPhQGW2pOpw==}

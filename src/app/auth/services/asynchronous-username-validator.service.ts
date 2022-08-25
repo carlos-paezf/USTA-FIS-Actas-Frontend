@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { AbstractControl, AsyncValidator, ValidationErrors } from '@angular/forms';
 import { catchError, debounceTime, first, map, Observable, of, switchMap } from 'rxjs';
+
+import { environment } from 'src/environments/environment';
 import { IAsyncValidatorsResponse } from '../interface';
 import { InternalServerErrorService } from 'src/app/shared/services';
 
@@ -12,7 +13,7 @@ import { InternalServerErrorService } from 'src/app/shared/services';
 })
 export class AsynchronousUsernameValidatorService implements AsyncValidator {
 
-    private _baseURL = `${environment.baseURL}/auth`
+    private _baseURL = `${environment.baseURLAuth}/auth`
 
     constructor(
         private readonly _http: HttpClient,

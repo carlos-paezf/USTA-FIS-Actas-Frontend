@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import {
     HttpRequest,
     HttpHandler,
@@ -6,13 +7,14 @@ import {
     HttpInterceptor
 } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
+
 import { AuthService } from '../services';
-import { Router } from '@angular/router';
+
 
 @Injectable()
 export class ErrorHandlingInterceptor implements HttpInterceptor {
 
-    constructor(private _authenticationService: AuthService, private _router: Router) { }
+    constructor(private _authService: AuthService, private _router: Router) { }
 
     /**
      * The function intercepts the request, and if the request returns a 401 status code, the user is
@@ -24,7 +26,7 @@ export class ErrorHandlingInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
         return next.handle(request).pipe(catchError(err => {
             if (err.status === 401) {
-                this._authenticationService.logout()
+                this._authService.logout()
                 this._router.navigate(['/auth'])
             }
 

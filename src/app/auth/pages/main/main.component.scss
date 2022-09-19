@@ -157,11 +157,13 @@
                                     &::placeholder {
                                         font-size: 16px;
                                         opacity: 0;
+                                        color: transparent;
                                         transition: all 300ms;
                                     }
 
                                     &:focus::placeholder {
                                         opacity: 1;
+                                        color: var(--text-light);
                                     }
                                 }
 

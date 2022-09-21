@@ -1,10 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { ForbiddenComponent } from './pages/forbidden/forbidden.component';
 import { MainComponent } from './pages/main/main.component';
-import { NotFoundComponent } from './pages/not-found/not-found.component';
-import { UnauthorizedComponent } from './pages/unauthorized/unauthorized.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 
 const routes: Routes = [
@@ -28,10 +26,12 @@ const routes: Routes = [
                 path: 'users',
                 loadChildren: () => import('./modules/users/users.module').then(m => m.UsersModule)
             },
-            { path: 'unauthorized', pathMatch: 'full', component: UnauthorizedComponent },
-            { path: 'forbidden', pathMatch: 'full', component: ForbiddenComponent },
-            { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-            { path: '**', component: NotFoundComponent, data: { title: 'No encontrado' } }
+            {
+                path: '', redirectTo: 'dashboard', pathMatch: 'full'
+            },
+            {
+                path: '**', component: NotFoundComponent, data: { title: 'No encontrado' }
+            }
         ]
     },
     {
@@ -41,7 +41,7 @@ const routes: Routes = [
 
 
 @NgModule({
-    imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule]
+    imports: [ RouterModule.forChild(routes) ],
+    exports: [ RouterModule ]
 })
 export class ProtectedRoutingModule { }

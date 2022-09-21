@@ -9,6 +9,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoadingInterceptorService } from './shared/http-interceptors/loading-interceptor.service';
+import { ErrorHandlingInterceptorService } from './shared/http-interceptors/error-handling-interceptor.service';
 
 
 @NgModule({
@@ -30,6 +31,11 @@ import { LoadingInterceptorService } from './shared/http-interceptors/loading-in
         {
             provide: HTTP_INTERCEPTORS,
             useClass: LoadingInterceptorService,
+            multi: true
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: ErrorHandlingInterceptorService,
             multi: true
         }
     ],

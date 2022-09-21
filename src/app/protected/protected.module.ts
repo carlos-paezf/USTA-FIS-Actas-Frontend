@@ -8,13 +8,11 @@ import { SharedModule } from '../shared/shared.module';
 import { PrimeNgModule } from './prime-ng/prime-ng.module';
 import { MaterialDesignModule } from './material-design/material-design.module';
 
-import { AccessTokenInterceptor } from './http-interceptor/access-token.interceptor';
+import { AccessTokenInterceptorService } from './http-interceptor/access-token-interceptor.service';
 
 import { MainComponent } from './pages/main/main.component';
-import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
-import { UnauthorizedComponent } from './pages/unauthorized/unauthorized.component';
-import { ForbiddenComponent } from './pages/forbidden/forbidden.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { InputAutocompleteComponent } from './components/input-autocomplete/input-autocomplete.component';
 
@@ -30,9 +28,7 @@ import { UserButtonSidebarDirective } from './directives/user-button-sidebar.dir
     declarations: [
         MainComponent,
         NotFoundComponent,
-        UnauthorizedComponent,
         SidebarComponent,
-        ForbiddenComponent,
         NavbarComponent,
         InputAutocompleteComponent,
         SidebarToggleDirective,
@@ -53,7 +49,7 @@ import { UserButtonSidebarDirective } from './directives/user-button-sidebar.dir
     providers: [
         {
             provide: HTTP_INTERCEPTORS,
-            useClass: AccessTokenInterceptor,
+            useClass: AccessTokenInterceptorService,
             multi: true
         }
     ]

@@ -4,8 +4,10 @@
     <main>
         <app-navbar></app-navbar>
 
-        <router-outlet *customIf="!internalServerError"></router-outlet>
+        <router-outlet *customIf="!internalServerError && !forbiddenError && !unauthorizedError"></router-outlet>
 
         <app-internal-server-error *customIf="internalServerError"></app-internal-server-error>
+        <app-forbidden *customIf="forbiddenError"></app-forbidden>
+        <app-unauthorized *customIf="unauthorizedError"></app-unauthorized>
     </main>
 </div>

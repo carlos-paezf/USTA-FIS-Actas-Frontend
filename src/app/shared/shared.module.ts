@@ -7,6 +7,9 @@ import { InputPasswordDirective } from './directives/input-password.directive';
 
 import { InternalServerErrorComponent } from './components/internal-server-error/internal-server-error.component';
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
+import { ForbiddenComponent } from './components/forbidden/forbidden.component';
+import { UnauthorizedComponent } from './components/unauthorized/unauthorized.component';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -15,16 +18,21 @@ import { LoadingSpinnerComponent } from './components/loading-spinner/loading-sp
         CustomIfDirective,
         InputPasswordDirective,
         InternalServerErrorComponent,
-        LoadingSpinnerComponent
+        LoadingSpinnerComponent,
+        ForbiddenComponent,
+        UnauthorizedComponent
     ],
     imports: [
-        CommonModule
+        CommonModule,
+        RouterModule
     ],
     exports: [
         ErrorMsgDirective,
         CustomIfDirective,
         InputPasswordDirective,
-        InternalServerErrorComponent
+        InternalServerErrorComponent,
+        ForbiddenComponent,
+        UnauthorizedComponent
     ]
 })
 export class SharedModule { }

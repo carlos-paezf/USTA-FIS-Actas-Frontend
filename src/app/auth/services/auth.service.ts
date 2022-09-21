@@ -11,7 +11,7 @@ import { AccessTokenService } from 'src/app/shared/services';
     providedIn: 'root'
 })
 export class AuthService extends AccessTokenService {
-    private _baseURL = `${environment.baseURLAuth}/auth`
+    private _baseURL = `${ environment.baseURLAuth }/auth`
 
     constructor(private readonly _http: HttpClient) {
         super()
@@ -26,7 +26,7 @@ export class AuthService extends AccessTokenService {
      * @returns Observable<boolean>
      */
     public login(emailOrUsername: string, password: string): Observable<boolean> {
-        const url = `${this._baseURL}/login`
+        const url = `${ this._baseURL }/login`
         const body = { emailOrUsername, password }
 
         return this._http.post<IAuthResponse>(url, body)
@@ -37,7 +37,7 @@ export class AuthService extends AccessTokenService {
                     }
                 }),
                 map(res => (res.status === 200)),
-                catchError(({ error }) => of(error.error))
+                catchError(({ error }) => of(error))
             )
     }
 
@@ -48,7 +48,7 @@ export class AuthService extends AccessTokenService {
      * @returns Observable<unknown>
      */
     public register(data: IRegisterUser): Observable<unknown> {
-        const url = `${this._baseURL}/register`
+        const url = `${ this._baseURL }/register`
         const body: IRegisterUser = { ...data }
 
         return this._http.post<IAuthResponse>(url, body)
@@ -59,7 +59,7 @@ export class AuthService extends AccessTokenService {
                     }
                 }),
                 map(res => (res.status === 201)),
-                catchError(({ error }) => of(error.error))
+                catchError(({ error }) => of(error))
             )
     }
 
@@ -77,9 +77,9 @@ export class AuthService extends AccessTokenService {
      * @returns Observable<boolean>
      */
     public validateAndRenewToken(): Observable<boolean> {
-        const url = `${this._baseURL}/renew-token`
+        const url = `${ this._baseURL }/renew-token`
         const headers = new HttpHeaders()
-            .set('Authorization', `Bearer ${this.accessToken}`)
+            .set('Authorization', `Bearer ${ this.accessToken }`)
 
         return this._http.get<IAuthResponse>(url, { headers })
             .pipe(
